@@ -1,0 +1,60 @@
+<%- include('partials/header') %>
+
+
+    <div class="jumbotron centered" style="padding-top: 10%;">
+        <div class="container" style="margin-left: auto;">
+            <a class="btn btn-secondary btn-lg" href="/data" role="button" style="margin-bottom: 20px;">Back</a>
+            <% if (owners.length===0) { %>
+                <h1>No deleted users yet!</h1>
+                <% } else { %>
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Delete</th>
+                                    <th scope="col">Restore</th>
+                                    <th scope="col">Reason</th>
+                                    <th scope="col">By who</th>
+                                    <th scope="col">Name</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <form action="/restore" id="add" method="post"></form>
+                                <form action="/deleteForever" id="delete" method="post"></form>
+                                <% owners.forEach(owner=> { %>
+                                    <tr>
+                                        <td class="td-left"><button class="btn" name="ownerIdToBeDeleted"
+                                                value="<%=owner.id%>" form="delete"><i
+                                                    class="fa-solid fa-user-minus"></i></button>
+                                        </td>
+                                        <td class="td-left"><button class="btn" name="ownerId" value="<%=owner.id%>"
+                                                form="add"><i class="fa-solid fa-user-plus"></i></button>
+                                        </td>
+
+                                        <td class="td-left">
+                                            <%=owner.note%>
+                                        </td>
+                                        <td class="td-left">
+                                            <%=owner.who%>
+                                        </td>
+                                        <td class="td">
+                                            <%=owner.name%>
+                                        </td>
+
+                                    </tr>
+                                    <% }) %>
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <% } %>
+                        
+        </div>
+    </div>
+
+
+
+
+
+    <%- include('partials/footer') %>

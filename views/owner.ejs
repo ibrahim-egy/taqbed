@@ -1,0 +1,90 @@
+<%- include('partials/header') %>
+
+  <div class="jumbotron centered" style="padding-top: 5%; height: 100%;">
+    <div class="container">
+      <a href="/data"><button class="btn btn-secondary"><i class="fa-solid fa-delete-left"></i> BACK</button></a>
+
+      <% owners.forEach((owner, index)=> { %>
+        <div class="">
+          <table class="table table-striped">
+            <tbody>
+              <tr>
+                <th scope="row">Name: </th>
+                <td>
+                  <%=owner.name%>
+                </td>
+              </tr>
+              <tr>
+                <th scope="row">National ID: </th>
+                <td>
+                  <%=owner.nationalId%>
+                </td>
+              </tr>
+              <tr>
+                <th scope="row">Next Payment Date: </th>
+                <td>
+                  <%=owner.nextPayment%>
+                </td>
+              </tr>
+              <tr>
+                <th scope="row">Category: </th>
+                <td>
+                  <%=owner.category%>
+                </td>
+              </tr>
+              <tr>
+                <th scope="row">Amount/Year: </th>
+                <td>
+                  <%=owner.amount%>
+                </td>
+              </tr>
+              <tr>
+                <th scope="row">Amount/Month: </th>
+                <td>
+                  <%=owner.amountPerMonth%>
+                </td>
+              </tr>
+              <tr>
+                <th scope="row">By Who: </th>
+                <td>
+                  <%=owner.byWho%>
+                </td>
+              </tr>
+              <tr>
+                <th scope="row">Notes: </th>
+                <td>
+                  <%=owner.note%>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="bottom">
+            <form action="/edit/<%=owner.id%>" class="side">
+              <button class="btn btn-light btn-lg" type="submit"><i class="fa-solid fa-pen-to-square"></i>Edit</button>
+            </form>
+            <form action="/owner" method="post" class="side">
+
+              <button class="btn btn-success btn-lg" type="submit"><i
+                  class="fa-solid fa-thumbs-up" ></i>قبَّض</button>
+
+              <button name="monthCount" id="index<%=index%>" class="btn btn-warning btn-lg" type="submit" onclick='getKbd("<%=index%>")' ><i
+                  class="fa-solid fa-thumbs-up"></i>قبَّض بالشهر</button>
+
+              <input type="hidden" name="nextPayment" value="<%=owner.nextPayment%>">
+              <input type="hidden" name="amount" value="<%=owner.amount%>">
+              <input type="hidden" name="amountPerMonth" value="<%=owner.amountPerMonth%>">
+              <input type="hidden" name="ownerId" value="<%=owner.id%>">
+            </form>
+            <form action="/delete/<%=owner.id%>" method="post" class="side">
+              <button id="<%=owner.id%>" class="btn btn-danger btn-lg" name="why" type="submit"
+                onclick='getWhy("<%=owner.id%>")'><i class="fa-solid fa-thumbs-down"></i>احزف</button>
+            </form>
+          </div>
+          <hr class="split">
+        </div>
+        <% }) %>
+
+    </div>
+  </div>
+
+  <%- include('partials/footer') %>

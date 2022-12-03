@@ -1,0 +1,12 @@
+<%- include('partials/header'); -%>
+    <div class="container centered">
+        <i class="fa-solid fa-lock fa-6x"></i>
+        <hr>
+        <form action="/login" class="form" method="post">
+            <input type="text" placeholder="Username" name="username" required/>
+            <input type="password" placeholder="Password" name="password" />
+            <button class="btn btn-dark btn-lg"type="submit">Login</button>
+        </form>
+    </div>
+
+    <%- include('partials/footer'); -%>

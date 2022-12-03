@@ -1,0 +1,30 @@
+<%- include('partials/header') %>
+
+    <div class="jumbotron centered">
+        <div class="container">
+            <a href="/allOwners"><i class="fa-brands fa-searchengin fa-6x"></i></a>
+            <form action="/data", method="post">
+                <input id="ownerName" list="owners" type="search" name='name' placeholder="الاسم الكامل" autofocus>
+                <datalist id="owners">
+                    <% owners.forEach(owner => { %>
+                        <option class="dropdown-element"><%=owner%></option>
+                    <% }) %>
+                </datalist>
+                <button class="btn btn-light side" type="submit">Search</button>
+            </form>
+            <div class="bottom">
+                <form action="/add" class="side">
+                    <button class="btn btn-dark btn-lg" type="submit">Add</button>
+                </form>
+                <form action="/logout" method="post" class="side">
+                    <button class="btn btn-light btn-lg" type="submit">Logout</button>
+                </form>
+                <form action="/deletedList" class="side">
+                    <button class="btn btn-warning btn-lg" type="submit">Deleted Users</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <%- include('partials/footer') %>

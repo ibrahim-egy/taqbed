@@ -1,0 +1,191 @@
+html {
+  height: 100%;
+  margin: 0;
+}
+body {
+  background-color: #E8ECEF;
+  font-weight: 400;
+}
+.centered {
+  padding-top: 200px;
+  text-align: center;
+}
+
+.secret-text {
+  display: block;
+  text-align: center;
+  font-size: 2rem;
+  color: #fff;
+  background-color: #000;
+  border-radius: 15px;
+}
+
+.in-line {
+  display: inline-block;
+}
+
+.checkbox {
+  margin:20px;
+  float: left;
+}
+
+form {
+  padding: 20px 0;
+  position: relative;
+}
+form input {
+  border: 1px solid rgba(95, 86, 86, 0.4);
+  background-color: rgba(84, 79, 79, 0.2);
+  width: 250px;
+  border-radius: 3px;
+  font-family: "Source Sans Pro", sans-serif;
+  padding: 10px 15px;
+  margin: 0 auto 10px auto;
+  display: block;
+  text-align: center;
+  font-size: 18px;
+  color: rgb(19, 16, 16);
+  font-weight: 300;
+}
+
+form button {
+  width: 250px;
+  font-size: 18px;
+}
+
+.side {
+  display: inline;
+}
+
+.bottom {
+  margin: 120px auto;
+  width: 100%;
+}
+
+div form button {
+  margin:5px;
+}
+
+table {
+  font-size: large;
+}
+
+td {
+  text-align: right;
+}
+
+.td-left {
+  text-align: left;
+}
+
+#error {
+  font-weight: bold;
+  visibility: hidden;
+  color: red;
+}
+
+#Perror {
+  font-weight: bold;
+  visibility: hidden;
+  color: red;
+}
+
+.split {
+  border-top-width: 5px;
+}
+.fill {
+  min-height: 90%;
+}
+
+
+.text-center {
+  text-align: center;
+}
+
+.year-heading:first-child {
+  margin-bottom: 30px;
+}
+.year-heading:not(:first-child) {
+
+  margin: 30px 0;
+}
+
+
+.s-width {
+  max-width: 50px;
+}
+
+
+.popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(000, 000, 000, 0.2);
+  display: none;
+}
+
+.popup__content {
+
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  width: 80%;
+  height: 50%;
+  background-color: rgb(000, 000, 000, .5);
+  border-radius: 10px;
+  margin: auto;
+  transform: translate(-50%, -20%);
+  
+}
+
+.popup__heading {
+  text-align: center;
+  padding: 20px 0;
+  font-size: 30px;
+  color: #eee;
+  transition: all 0.5s;
+}
+
+.form-input {
+  background-color: rgba(229, 223, 223, 0.871);
+}
+
+
+#preloader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 9999;
+  overflow: hidden;
+  background: #e8ecef;
+  visibility: hidden;
+}
+
+#preloader.display {
+  visibility: visible;
+}
+
+#preloader .fa-6x {
+  position: fixed;
+  top: calc(45% - 30px);
+  left: calc(45% - 30px);
+}
+
+#preloader .fa-4x {
+  position: fixed;
+  top: calc(45% - 70px);
+  left: calc(45% + 45px);
+}
+
+#preloader .fa-3x {
+  position: fixed;
+  top: calc(45% + 50px);
+  left: calc(45% + 45px);
+}
+
+
+

@@ -1,0 +1,25 @@
+<%- include('partials/header') %>
+    <div class="container centered">
+        <span id="error">PetroTech</span>
+
+        <form action="/add" method="post">
+            <input type="text" placeholder="الاسم" name="name" required />
+            <input type="number" id="nId" placeholder="الرقم القومى" name="nationalId" onchange="validate()"
+                required />
+            <input type="date" placeholder="تريخ القبض" name="nextPayment" required />
+            <input type="number" id="amount" placeholder="كام فى السنه" name="amount" step="100" onchange="autoSuggestMonth()" required />
+            <input type="number" id="amount-month" placeholder="كام فى الشهر" name="amountPerMonth" onchange="autoSuggestYear()" required />
+            <input type="text" id="category" list="catagories" name="category" onchange="checkSoory()" required>
+            <datalist id="catagories">
+                <option>سورى</option>
+                <option>ارمله</option>
+                <option>مطلقه</option>
+                <option>متزوجه</option>
+                <option>مسعدات</option>
+            </datalist>
+
+            <button id="btn" class="btn btn-dark btn-lg" type="submit">Add</button>
+        </form>
+    </div>
+
+    <%- include('partials/footer') %>

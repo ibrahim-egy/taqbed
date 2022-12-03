@@ -1,0 +1,75 @@
+<%- include('partials/header') %>
+
+    <div class="jumbotron centered">
+        <div class="container">
+            
+            <% var allYears = total.map((year) => { %>
+                <% return year.year %>
+            <% }) %> 
+            
+            <% let yearsInDb = allYears.filter ((year, index) => { %>
+                <% return allYears.indexOf(year) === index %>
+            <% }) %>    
+            
+
+            <% var i = 0; %>
+            <% yearsInDb.forEach ((year, index) => { %>
+                <% if (index != 0) { %>
+                    <hr class="split">
+                <% } %>
+                <h1 class="year-heading"><%=year%></h1>
+                <table class="table table-striped table-bordered text-center">
+                    <thead>
+                        <tr>
+                            <th scope="col">Edit</th>
+                            <th scope="col">Total</th>
+                            <th scope="col">شهر</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% while (allYears[i] === year) { %>
+                            <tr>
+                                <td class="text-center s-width">
+                                    <form class="side" >
+                                        <button  class="btn btn-lg s-width" type="button" onclick="popup('<%=total[i].id%>')">
+                                            <i class="fa-solid fa-pen-to-square"></i>
+                                        </button>
+                                        <input form="myform" type="hidden" name="id" id="<%=total[i].id%>">
+                                    </form>
+                                </td>
+                                <td id="total" class="text-center">
+                                    <%=total[i].monthTotal%>
+                                </td>
+                                <td class="text-center s-width">
+                                    <%= total[i].monthNumber%>
+                                </td>
+                            </tr>
+                        <% i = i + 1; %>
+                        <% } %>
+                    </tbody>
+                    </table>
+                
+            <% }) %>
+            <a href="/data"><button class="btn btn-secondary"><i class="fa-solid fa-delete-left"></i> BACK</button></a>
+            
+        </div>
+        <div class="popup">
+            
+            <div class="popup__content">
+                <h3 class="popup__heading">
+                    اكتب الفرق
+                </h3>
+                <h4>
+                    - موجب + او سالب 
+                </h4>
+                <form action="/total" method="post" id="myform">
+                    <input name="totalDiff" type="number" class="form-input">
+                    <button class="add btn btn-light" onclick="add()" type="button">+</button>
+                    <button class="sub btn btn-light" onclick="sub()" type="button">-</button>
+                    <button id="btn" class="btn btn-dark btn-lg" type="submit">Save</button>
+                </form>
+            </div> 
+        </div>
+    </div>
+    
+    <%- include('partials/footer') %>
