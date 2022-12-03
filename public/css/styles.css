@@ -165,27 +165,34 @@ td {
   visibility: hidden;
 }
 
+#preloader::before {
+  content: '';
+  position: fixed;
+  width: 50px;
+  aspect-ratio: 1;
+  top: calc(50% - 50px);
+  left: calc(50% - 50px);
+  border-radius: 50%;
+  border: 5px solid #555;
+  border-top-color: #999;
+  animation: spin .7s linear infinite;
+}
+
 #preloader.display {
   visibility: visible;
 }
 
-#preloader .fa-6x {
-  position: fixed;
-  top: calc(45% - 30px);
-  left: calc(45% - 30px);
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
 }
 
-#preloader .fa-4x {
-  position: fixed;
-  top: calc(45% - 70px);
-  left: calc(45% + 45px);
-}
 
-#preloader .fa-3x {
-  position: fixed;
-  top: calc(45% + 50px);
-  left: calc(45% + 45px);
-}
 
 
 
