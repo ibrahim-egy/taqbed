@@ -99,7 +99,6 @@ function updateSDate(date, months) {
 }
 
 app.get('/', function (req, res) {
-    mongoose.connect("mongodb+srv://ibrahim:" + process.env.mongodbPass + "@cluster0.n66dv.mongodb.net/babaDB")
     res.render('index')
 })
 

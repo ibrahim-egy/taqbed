@@ -170,8 +170,8 @@ td {
   position: fixed;
   width: 50px;
   aspect-ratio: 1;
-  top: calc(50% - 50px);
-  left: calc(50% - 50px);
+  top: calc(50% - 25px);
+  left: calc(50% - 25px);
   border-radius: 50%;
   border: 5px solid #555;
   border-top-color: #999;
