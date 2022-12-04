@@ -193,6 +193,13 @@ td {
 }
 
 
+@media (max-height: 750px) {
+  .centered {
+    padding-top: 15%;
+  }
+}
+
+
 
 
 
