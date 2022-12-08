@@ -4,6 +4,7 @@ const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 require('dotenv').config()
 const session = require('express-session')
+const MemoryStore = require('memorystore')(session)
 const passport = require('passport');
 const passportLocalMongoose = require('passport-local-mongoose');
 var favicon = require('serve-favicon');
@@ -13,8 +14,12 @@ app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public'));
 app.use(session({
+    cookie: { maxAge: 86400000 },
     secret: process.env.secret,
     resave: false,
+    store: new MemoryStore({
+        checkPeriod: 86400000 // prune expired entries every 24h
+    }),
     saveUninitialized: false
 }));
 app.use(passport.initialize());
