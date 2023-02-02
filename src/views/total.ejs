@@ -1,15 +1,15 @@
 <%- include('partials/header') %>
 
-    <div class="jumbotron centered">
+    <div class="jumbotron centered" style="padding-top: 50px;">
         <div class="container">
             
             <% var allYears = total.map((year) => { %>
                 <% return year.year %>
-            <% }) %> 
+            <% }) %>
             
             <% let yearsInDb = allYears.filter ((year, index) => { %>
                 <% return allYears.indexOf(year) === index %>
-            <% }) %>    
+            <% }) %>
             
 
             <% var i = 0; %>

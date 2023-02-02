@@ -6,8 +6,14 @@ require('dotenv').config()
 const session = require('express-session')
 const MemoryStore = require('memorystore')(session)
 const passport = require('passport');
-const passportLocalMongoose = require('passport-local-mongoose');
 var favicon = require('serve-favicon');
+const LoginRoute = require('./routes/Login')
+const RegisterRoute = require('./routes/Register')
+const date = require('./date')
+const db = require('./db/mongo')
+const Owner = db.Owner
+const DeletedOwner = db.DeletedOwner
+const Total = db.Total
 
 var app = express();
 app.set('view engine', 'ejs');
@@ -26,130 +32,13 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(favicon(__dirname + '/public/images/favicon.ico'));
 
-mongoose.connect("mongodb+srv://ibrahim:" + process.env.mongodbPass + "@cluster0.n66dv.mongodb.net/babaDB")
+app.use('/login', LoginRoute)
+app.use('/register', RegisterRoute)
 
-
-userSchema = new mongoose.Schema({
-    name: String,
-    password: String
-})
-ownerSchema = new mongoose.Schema({
-    name: String,
-    nationalId: Number,
-    nextPayment: String,
-    category: String,
-    amount: Number,
-    amountPerMonth: Number,
-    note: String,
-    byWho: String
-})
-
-deletedOwnersSchema = new mongoose.Schema({
-    name: String,
-    nationalId: Number,
-    nextPayment: String,
-    category: String,
-    amount: Number,
-    amountPerMonth: Number,
-    note: String
-})
-
-monthTotalSchema = new mongoose.Schema({
-    monthNumber: Number,
-    monthTotal: Number,
-    year: Number
-})
-
-userSchema.plugin(passportLocalMongoose);
-const User = new mongoose.model('user', userSchema)
-const Owner = new mongoose.model('owner', ownerSchema)
-const DeletedOwner = new mongoose.model('deletedOwner', deletedOwnersSchema)
-const Total = new mongoose.model('monthTotal', monthTotalSchema)
-
-
-
-passport.use(User.createStrategy());
-
-passport.serializeUser(function (user, done) {
-    done(null, user.id);
-});
-
-passport.deserializeUser(function (id, done) {
-    User.findById(id, function (err, user) {
-        done(err, user);
-    });
-});
-
-
-function updateDate(date) {
-    year = parseInt(date.split('-')[0]) + 1
-    year = year.toString()
-    const newDate = year + '-' + date.substring(5, 10)
-    return newDate;
-}
-
-function updateSDate(date, months) {
-    year = parseInt(date.split('-')[0])
-    month = parseInt(date.split('-')[1]) + months
-    if (month > 12) {
-        month -= 12
-        year += 1
-    }
-    if (month < 10) {
-        month = '0' + month.toString();
-    }
-    const newDate = year + '-' + month + '-' + date.substring(8, 10)
-    return newDate
-
-}
 
 app.get('/', function (req, res) {
     res.render('index')
 })
-
-app.route('/register')
-    .get(function (req, res) {
-        res.render('register')
-    })
-    .post(function (req, res) {
-
-        User.register({ username: req.body.username }, req.body.password, function (err, user) {
-            if (err) {
-                console.log(err)
-                res.redirect('/register')
-            } else {
-                passport.authenticate('local')(req, res, function () {
-                    res.redirect('/data')
-                })
-            }
-        })
-
-
-    });
-
-app.route('/login')
-    .get(function (req, res) {
-        res.render('login')
-    })
-    .post(function (req, res) {
-
-        const user = new User({
-            username: req.body.username,
-            password: req.body.password
-        })
-        req.login(user, function (err) {
-            if (err) {
-                res.redirect('/login')
-            } else {
-                passport.authenticate('local', { failureRedirect: '/login' })(req, res, function () {
-                    res.redirect('/data')
-                })
-            }
-        })
-
-    });
-
-
 
 app.route('/data')
     .get(function (req, res) {
@@ -161,11 +50,8 @@ app.route('/data')
                     o.forEach(owner => {
                         owners.push(owner.name)
                     });
-                    let ownerss = owners.filter((item, index) => {
-                        return owners.indexOf(item) === index;
-                    })
                     res.render('data', {
-                        owners: ownerss,
+                        owners: owners,
                     })
                 }
             })
@@ -272,10 +158,10 @@ app.route('/owner')
             if (typeof req.body.monthCount != 'undefined') {
 
                 var amount = req.body.amountPerMonth * req.body.monthCount
-                var newDate = updateSDate(nextPayment, Number(req.body.monthCount))
+                var newDate = date.updateSDate(nextPayment, Number(req.body.monthCount))
             } else {
                 var amount = req.body.amount
-                var newDate = updateDate(nextPayment);
+                var newDate = date.updateDate(nextPayment);
             }
             const d = new Date();
             const currentMonth = d.getMonth() + 1;
@@ -290,7 +176,8 @@ app.route('/owner')
                                 const t = parseInt(month.monthTotal) + parseInt(amount);
                                 month.monthTotal = t;
                                 month.save();
-                                res.redirect('/data')
+                                res.redirect(req.get('referer'));
+
                                 console.log(month);
 
                             } else {
@@ -300,7 +187,8 @@ app.route('/owner')
                                     year: currentYear
                                 })
                                 newMonth.save(() => {
-                                    res.redirect('/data')
+                                    // res.redirect('/data')
+                                    res.redirect('back');
                                 })
                             }
 
@@ -423,10 +311,15 @@ app.post('/delete/:ownerId', function (req, res) {
                             }
 
                         })
+                        
                         Owner.find({ name: newDeletedOwner.name }, function (err, owners) {
                             if (!err) {
-                                if (owners.length != 0) {
-                                    res.render('owner', { owners: owners })
+                                console.log(owners)
+                                console.log(owners.length)
+                                if (owners.length > 0) {
+                                    console.log('redirecting');
+                                    var string = encodeURIComponent(newDeletedOwner.name);
+                                    res.redirect('/owner?name=' + string)
                                 } else {
                                     res.redirect('/deletedList')
                                 }

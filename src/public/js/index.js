@@ -47,7 +47,7 @@ function checkSoory () {
 function getWhy(id) {
     var why = prompt('سبب اللغى؟');
     if (why == null || why == "") {
-        getWhy();
+        location.reload();
     }
     document.getElementById(id).value = why;
     return why;
@@ -110,7 +110,7 @@ function getKbd(id) {
     const numberOfMonth = prompt("قبض كام شهر؟")
 
     if(isNaN(+numberOfMonth)) {
-        getKbd()
+        location.reload();
     } else {
         document.getElementById("index" + id).value = Number(numberOfMonth)
     }
