@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const passport = require('passport');
 
-const db = require('../db/mongo');
+const db = require('../db/Mongo');
 const User = db.User
 
 

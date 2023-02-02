@@ -10,15 +10,16 @@ var favicon = require('serve-favicon');
 const LoginRoute = require('./routes/Login')
 const RegisterRoute = require('./routes/Register')
 const date = require('./date')
-const db = require('./db/mongo')
+const db = require('./db/Mongo')
 const Owner = db.Owner
 const DeletedOwner = db.DeletedOwner
 const Total = db.Total
 
 var app = express();
 app.set('view engine', 'ejs');
+app.set('views', './src/views')
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static('public'));
+app.use(express.static('./src/public'));
 app.use(session({
     cookie: { maxAge: 86400000 },
     secret: process.env.secret,
