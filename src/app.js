@@ -342,19 +342,14 @@ app.post('/delete/:ownerId', function (req, res) {
 
 app.get('/deletedList', function (req, res) {
     if (req.isAuthenticated()) {
-        const dOwners = []
         DeletedOwner.find({}, function (err, ownersFound) {
             if (!err) {
                 if (ownersFound) {
-                    ownersFound.forEach(o => {
-                        dOwners.push({
-                            id: o.id,
-                            name: o.name,
-                            note: o.note,
-                            who: req.user.username
-                        })
+                    const deleted = ownersFound.filter((o) => {
+                        return {id: o.id, name: o.name, note: o.note, who: req.user.username}
                     })
-                    res.render('deletedList', { owners: dOwners })
+
+                    res.render('deletedList', { owners: deleted.reverse() })
                 }
             } else {
                 console.log(err)
