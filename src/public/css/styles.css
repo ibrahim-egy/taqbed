@@ -1,14 +1,24 @@
+:root {
+  --color-background: #c9d0d6;
+}
+
+
 html {
   height: 100%;
   margin: 0;
 }
 body {
-  background-color: #E8ECEF;
+  background-color: var(--color-background);
   font-weight: 400;
 }
 .centered {
   padding-top: 200px;
   text-align: center;
+}
+
+.back-btn {
+  margin-bottom: 10px;
+  display: inline-block;
 }
 
 .secret-text {
@@ -46,6 +56,15 @@ form input {
   font-size: 18px;
   color: rgb(19, 16, 16);
   font-weight: 300;
+}
+
+.search-icon {
+
+  color: rgb(53 146 188);
+}
+
+.owner-table {
+  height: calc(100vh - 5% - 48px);
 }
 
 form button {
@@ -161,7 +180,7 @@ td {
   bottom: 0;
   z-index: 9999;
   overflow: hidden;
-  background: #e8ecef;
+  background: var(--color-background);
   visibility: hidden;
 }
 

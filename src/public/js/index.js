@@ -36,11 +36,11 @@ function checkSoory () {
     var span = document.getElementById('error')
 
     if (category === 'سورى') {
-        button.disabled = false;
-        nationalId.value = 0
-        span.innerText = 'تمام يا رايق'
-        span.style.color = 'green';
-        span.style.visibility = 'visible'
+      button.disabled = false;
+      // nationalId.value = 0
+      span.innerText = "تمام يا رايق";
+      span.style.color = "green";
+      span.style.visibility = "visible";
     }
 }
 

@@ -4,12 +4,7 @@
 
         <form action="/edit/<%=owner.id%>" method="post">
             <input type="text"  placeholder="الاسم" name="name" value="<%=owner.name%>"
-                required />
-            <input type="number" id="nId" placeholder="الرقم القومى" name="nationalId" value="<%=owner.nationalId%>" onchange="validate()" required />
-            <input type="date" placeholder="تريخ القبض" name="nextPayment" value="<%=owner.nextPayment%>" required />
-            <input type="number" id="amount" placeholder="كام فى السنه" name="amount" value="<%=owner.amount%>" onchange="autoSuggestMonth()"
-                required />
-            <input type="number" id="amount-month" placeholder="كام فى الشهر" name="amountPerMonth" value="<%=owner.amountPerMonth%>" onchange="autoSuggestYear()" required />
+            required />
             <input type="text" id="category" list="catagories" name="category" placeholder="category" value="<%=owner.category%>" onchange="checkSoory()" required>
             <datalist id="catagories">
                 <option>سورى</option>
@@ -18,6 +13,11 @@
                 <option>متزوجه</option>
                 <option>مسعدات</option>
             </datalist>
+                <input type="number" id="nId" placeholder="الرقم القومى" name="nationalId" value="<%=owner.nationalId%>" onchange="validate()" required />
+            <input type="date" placeholder="تريخ القبض" name="nextPayment" value="<%=owner.nextPayment%>" required />
+            <input type="number" id="amount" placeholder="كام فى السنه" name="amount" value="<%=owner.amount%>" onchange="autoSuggestMonth()"
+                required />
+            <input type="number" id="amount-month" placeholder="كام فى الشهر" name="amountPerMonth" value="<%=owner.amountPerMonth%>" onchange="autoSuggestYear()" required />
             <input type="text" placeholder="Notes..." name="note" value="<%=owner.note%>" />
             <input type="hidden" value="<%=owner.name%>" name="Sname">
             <button id="btn" class="btn btn-dark btn-lg" type="submit">Save</button>
