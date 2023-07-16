@@ -1,7 +1,7 @@
 <%- include('partials/header') %>
 
 
-    <div class="jumbotron centered" style="padding-top: 10%;">
+    <div class="centered" style="padding-top: 10%;">
         <div class="container" style="margin-left: auto;">
             <a class="btn btn-secondary btn-lg back-btn" href="/data" role="button">Back</a>
             <% if (owners.length === 0) { %>
@@ -24,11 +24,11 @@
                                 <form action="/deleteForever" id="delete" method="post"></form>
                                 <% owners.forEach(owner=> { %>
                                     <tr>
-                                        <td class="td-left"><button class="btn" name="ownerIdToBeDeleted"
+                                        <td class="td-left"><button class="btn btn-secondary" name="ownerIdToBeDeleted"
                                                 value="<%=owner.id%>" form="delete"><i
                                                     class="fa-solid fa-user-minus"></i></button>
                                         </td>
-                                        <td class="td-left"><button class="btn" name="ownerId" value="<%=owner.id%>"
+                                        <td class="td-left"><button class="btn btn-dark" name="ownerId" value="<%=owner.id%>"
                                                 form="add"><i class="fa-solid fa-user-plus"></i></button>
                                         </td>
 

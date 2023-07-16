@@ -8,7 +8,7 @@ html {
   margin: 0;
 }
 body {
-  background-color: var(--color-background);
+  background-color: var(--color-background) !important;
   font-weight: 400;
 }
 .centered {
@@ -64,7 +64,6 @@ form input {
 }
 
 .owner-table {
-  height: calc(100vh - 5% - 48px);
 }
 
 form button {
@@ -79,6 +78,7 @@ form button {
 .bottom {
   margin: 120px auto;
   width: 100%;
+
 }
 
 div form button {
@@ -215,6 +215,12 @@ td {
 @media (max-height: 750px) {
   .centered {
     padding-top: 15%;
+  }
+}
+
+@media (max-width: 800px) {
+  .bottom {
+    margin: 80px auto;
   }
 }
 

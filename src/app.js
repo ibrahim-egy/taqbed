@@ -298,26 +298,35 @@ app.post('/delete/:ownerId', function (req, res) {
                     if (err) {
                         res.redirect("back")
                     } else {
-                        Owner.deleteOne({ _id: req.params.ownerId }, function (err) {
+                        Owner.deleteOne(
+                          { _id: req.params.ownerId },
+                          function (err) {
                             if (!err) {
-                                console.log("Removed user from owners collection.")
-                            }
-
-                        })
-                        
-                        Owner.find({ name: newDeletedOwner.name }, function (err, owners) {
-                            if (!err) {
-
-                                if (owners.length > 0) {
-                                    var string = encodeURIComponent(newDeletedOwner.name);
-                                    res.redirect('/owner?name=' + string)
-                                } else {
-                                    res.redirect('/deletedList')
+                              console.log(
+                                "Removed user from owners collection."
+                              );
+                              Owner.find(
+                                { name: newDeletedOwner.name },
+                                function (err, owners) {
+                                  if (!err) {
+                                    if (owners.length > 0) {
+                                      var string = encodeURIComponent(
+                                        newDeletedOwner.name
+                                      );
+                                      res.redirect("/owner?name=" + string);
+                                    } else {
+                                      res.redirect("/deletedList");
+                                    }
+                                  } else {
+                                    res.redirect("/data");
+                                  }
                                 }
-                            } else {
-                                res.redirect('/data')
+                              );
                             }
-                        })
+                          }
+                        );
+                        
+                        
                     }
                 })
                 
