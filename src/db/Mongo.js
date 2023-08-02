@@ -6,36 +6,37 @@ mongoose.connect(process.env.mongoUrl)
 
 
 
-userSchema = new mongoose.Schema({
-    name: String,
-    password: String
-})
-ownerSchema = new mongoose.Schema({
-    name: String,
-    nationalId: Number,
-    nextPayment: String,
-    category: String,
-    amount: Number,
-    amountPerMonth: Number,
-    note: String,
-    byWho: String
-})
+const userSchema = new mongoose.Schema({
+  name: String,
+  password: String,
+});
+const ownerSchema = new mongoose.Schema({
+  name: String,
+  nationalId: Number,
+  nextPayment: String,
+  category: String,
+  amount: Number,
+  amountPerMonth: Number,
+  note: String,
+  byWho: String,
+});
 
-deletedOwnersSchema = new mongoose.Schema({
-    name: String,
-    nationalId: Number,
-    nextPayment: String,
-    category: String,
-    amount: Number,
-    amountPerMonth: Number,
-    note: String
-})
+const deletedOwnersSchema = new mongoose.Schema({
+  name: String,
+  nationalId: Number,
+  nextPayment: String,
+  category: String,
+  amount: Number,
+  amountPerMonth: Number,
+  note: String,
+  byWho: String,
+});
 
-monthTotalSchema = new mongoose.Schema({
-    monthNumber: Number,
-    monthTotal: Number,
-    year: Number
-})
+const monthTotalSchema = new mongoose.Schema({
+  monthNumber: Number,
+  monthTotal: Number,
+  year: Number,
+});
 
 userSchema.plugin(passportLocalMongoose);
 const User = new mongoose.model('user', userSchema)

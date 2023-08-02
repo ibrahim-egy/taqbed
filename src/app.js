@@ -277,90 +277,73 @@ app
     });
   });
 
-app.post('/delete/:ownerId', function (req, res) {
+app.post("/delete/:ownerId", function (req, res) {
+  const deleteReason = req.body.why;
+  const name = req.user.username;
 
-    const deleteReason = req.body.why
-    const name = req.user.username
-
-    Owner.findById({ _id: req.params.ownerId }, function (err, owner) {
-        if (!err) {
-            if (owner) {
-                const newDeletedOwner = new DeletedOwner({
-                    name: owner.name,
-                    nationalId: owner.nationalId,
-                    nextPayment: owner.nextPayment,
-                    amount: owner.amount,
-                    amountPerMonth: owner.amountPerMonth,
-                    category: owner.category,
-                    note: deleteReason
-                })
-                newDeletedOwner.save(err => {
-                    if (err) {
-                        res.redirect("back")
+  Owner.findById({ _id: req.params.ownerId }, function (err, owner) {
+    if (!err) {
+      if (owner) {
+        const newDeletedOwner = new DeletedOwner({
+          name: owner.name,
+          nationalId: owner.nationalId,
+          nextPayment: owner.nextPayment,
+          amount: owner.amount,
+          amountPerMonth: owner.amountPerMonth,
+          category: owner.category,
+          note: deleteReason,
+          byWho: req.user.username,
+        });
+        newDeletedOwner.save((err) => {
+          if (err) {
+            res.redirect("back");
+          } else {
+            Owner.deleteOne({ _id: req.params.ownerId }, function (err) {
+              if (!err) {
+                console.log("Removed user from owners collection.");
+                Owner.find(
+                  { name: newDeletedOwner.name },
+                  function (err, owners) {
+                    if (!err) {
+                      if (owners.length > 0) {
+                        var string = encodeURIComponent(newDeletedOwner.name);
+                        res.redirect("/owner?name=" + string);
+                      } else {
+                        res.redirect("/deletedList");
+                      }
                     } else {
-                        Owner.deleteOne(
-                          { _id: req.params.ownerId },
-                          function (err) {
-                            if (!err) {
-                              console.log(
-                                "Removed user from owners collection."
-                              );
-                              Owner.find(
-                                { name: newDeletedOwner.name },
-                                function (err, owners) {
-                                  if (!err) {
-                                    if (owners.length > 0) {
-                                      var string = encodeURIComponent(
-                                        newDeletedOwner.name
-                                      );
-                                      res.redirect("/owner?name=" + string);
-                                    } else {
-                                      res.redirect("/deletedList");
-                                    }
-                                  } else {
-                                    res.redirect("/data");
-                                  }
-                                }
-                              );
-                            }
-                          }
-                        );
-                        
-                        
+                      res.redirect("/data");
                     }
-                })
-                
-            }
-        }
-        
-    })
-    
-    
-
-})
-
-app.get('/deletedList', function (req, res) {
-    if (req.isAuthenticated()) {
-        DeletedOwner.find({}, function (err, ownersFound) {
-            if (!err) {
-                if (ownersFound) {
-                    const deleted = ownersFound.filter((o) => {
-                        return {id: o.id, name: o.name, note: o.note, who: req.user.username}
-                    })
-
-                    res.render('deletedList', { owners: deleted.reverse() })
-                }
-            } else {
-                res.redirect("/deletedList")
-            }
-
-        })
-
-
-    } else {
-        res.redirect('/login')
+                  }
+                );
+              }
+            });
+          }
+        });
+      }
     }
-})
+  });
+});
+
+app.get("/deletedList", function (req, res) {
+  if (req.isAuthenticated()) {
+    DeletedOwner.find({}, function (err, ownersFound) {
+      if (!err) {
+        if (ownersFound) {
+          // const deleted = ownersFound.filter((o) => {
+          //     return {id: o.id, name: o.name, note: o.note, who: req.user.username}
+          // })
+
+          res.render("deletedList", { owners: ownersFound.reverse() });
+        }
+      } else {
+        res.redirect("/deletedList");
+      }
+    });
+  } else {
+    res.redirect("/login");
+  }
+});
 
 app.post('/restore', function (req, res) {
     if (req.isAuthenticated()) {
@@ -417,6 +400,7 @@ app.post('/logout', function (req, res) {
         }
     });
 })
+
 
 let port = process.env.PORT;
 if (port == null || port == "") {

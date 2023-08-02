@@ -76,7 +76,7 @@ form button {
 }
 
 .bottom {
-  margin: 120px auto;
+  margin: 80px auto;
   width: 100%;
 
 }
@@ -211,20 +211,57 @@ td {
   }
 }
 
+.centered-owner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  height: 100vh;
+}
+
+.edit-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  height: 100vh;
+}
+
+
+@media (max-height: 800px) {
+  .bottom {
+    margin: 60px auto;
+  }
+  .centered-owner {
+    height: auto;
+  }
+}
+
 
 @media (max-height: 750px) {
   .centered {
-    padding-top: 15%;
+    padding-top: 100px;
   }
-}
-
-@media (max-width: 800px) {
   .bottom {
-    margin: 80px auto;
+    margin: 10px auto;
   }
 }
 
 
 
+@media (max-height: 650px) {
+  .centered {
+    padding-top: 100px;
+  }
+  .bottom {
+    margin: 0 auto;
+  }
+}
 
+
+@media (max-width: 800px) and (max-height: 950px) {
+  .bottom {
+    margin: 0 auto;
+  }
+}
 
