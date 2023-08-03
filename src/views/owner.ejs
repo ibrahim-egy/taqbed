@@ -33,17 +33,17 @@
                 </td>
               </tr>
               <tr>
-                <th scope="row">Amount/Year: </th>
+                <th scope="row">Amount: Year/Month: </th>
                 <td>
-                  <%=owner.amount%>
+                  <%=owner.amount%>/<%=owner.amountPerMonth%>
                 </td>
               </tr>
-              <tr>
+              <!-- <tr>
                 <th scope="row">Amount/Month: </th>
                 <td>
-                  <%=owner.amountPerMonth%>
+                  
                 </td>
-              </tr>
+              </tr> -->
               <tr>
                 <th scope="row">By Who: </th>
                 <td>
@@ -52,8 +52,19 @@
               </tr>
               <tr>
                 <th scope="row">Notes: </th>
-                <td>
+                <td class="note-cell">
                   <%=owner.note%>
+                  <form action="/addNote" method="post" class="note-form">
+                    <button class="btn" type="submit" id="noteBtn">+</button>
+                    <input type="hidden" name="id" value="<%=owner.id%>">
+                    <input type="hidden" name="note" id="owner-note-input">
+                  </form>
+                </td>
+              </tr>
+              <tr>
+                <th scope="row">Last Payment Date: </th>
+                <td>
+                  <%=owner.lastPayment%>
                 </td>
               </tr>
             </tbody>
@@ -86,5 +97,14 @@
 
     </div>
   </div>
+
+<script>
+  const noteBtn = document.getElementById("noteBtn");
+  const note = document.getElementById("owner-note-input");
+  noteBtn.addEventListener("click", () => {
+    const noteInput = prompt("Note: ");
+    note.value = noteInput;
+  });
+</script>
 
   <%- include('partials/footer') %>

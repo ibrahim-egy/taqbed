@@ -14,6 +14,7 @@ const ownerSchema = new mongoose.Schema({
   name: String,
   nationalId: Number,
   nextPayment: String,
+  lastPayment: String,
   category: String,
   amount: Number,
   amountPerMonth: Number,

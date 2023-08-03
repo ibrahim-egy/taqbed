@@ -227,14 +227,29 @@ td {
   height: 100vh;
 }
 
+.note-cell {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 1rem;
+}
+
+.note-form {
+  padding: 0;
+  margin: 0;
+}
+.note-form button {
+  width: 50px;
+  margin: 0;
+  padding: 0;
+
+}
 
 @media (max-height: 800px) {
   .bottom {
     margin: 60px auto;
   }
-  .centered-owner {
-    height: auto;
-  }
+  
 }
 
 
@@ -262,6 +277,9 @@ td {
 @media (max-width: 800px) and (max-height: 950px) {
   .bottom {
     margin: 0 auto;
+  }
+  .centered-owner {
+    height: auto;
   }
 }
 

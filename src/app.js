@@ -162,7 +162,7 @@ app
         {
           $set: {
             nextPayment: newDate,
-            note: "تم القبض يوم " + nextPayment + " مبلغ " + amount,
+            lastPayment: "تم القبض يوم " + nextPayment + " مبلغ " + amount,
             byWho: req.user.username,
           },
         },
@@ -201,6 +201,13 @@ app
     }
   });
 
+app.post("/addNote", async (req, res) => {
+  const note = req.body.note;
+  const id = req.body.id;
+  await Owner.findOneAndUpdate({ _id: id }, { note: note });
+  res.redirect("back");
+});
+
 app
   .route("/edit/:ownerId")
   .get(function (req, res) {
@@ -234,14 +241,6 @@ app
     );
   });
 
-// const organize = () => {
-//   Total.find({}, function (err, total) {
-//     total.sort();
-//     console.log(total);
-//   });
-// };
-
-// organize();
 
 app
   .route("/total")

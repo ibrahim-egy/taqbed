@@ -1,47 +1,32 @@
 function validate() {
+  var category = document.getElementById("category").value;
+  var nationalId = document.getElementById("nId").value;
+  var span = document.getElementById("error");
+  var button = document.getElementById("btn");
 
-    var category = document.getElementById('category').value
-    var nationalId = document.getElementById('nId').value
-    var span = document.getElementById('error')
-    var button = document.getElementById('btn')
+  span.style.visibility = "visible";
+  if (category !== "ارمله" && category !== "مطلقه" && category !== "متزوجه") {
+    button.disabled = false;
+    // nationalId.value = 0
+    span.innerText = "تمام يا رايق";
+    span.style.color = "green";
+    span.style.visibility = "visible";
+  } else {
+    button.disabled = true;
+    span.style.color = "red";
 
-    span.style.visibility = 'visible'
-    if (category === 'سورى') {
-        checkSoory()
+    if (nationalId.length < 14) {
+      span.innerText = "الرقم القومى لا يجب ان يكون اصغر من 14 رقم";
+    } else if (nationalId.length > 14) {
+      span.innerText = "الرقم القومى لا يجب ان يكون اكبر من 14 رقم";
+    } else if (nationalId[0] != 2 && nationalId[0] != 3) {
+      span.innerText = "الرقم القومى يجب ان يبدا ب 3 او 2";
     } else {
-        
-        button.disabled = true;
-        span.style.color = 'red';
-
-        if (nationalId.length < 14) {
-            span.innerText = 'الرقم القومى لا يجب ان يكون اصغر من 14 رقم';
-        } else if (nationalId.length > 14) {
-            span.innerText = 'الرقم القومى لا يجب ان يكون اكبر من 14 رقم';
-        } else if (nationalId[0] != 2 && nationalId[0] != 3) {
-            span.innerText = 'الرقم القومى يجب ان يبدا ب 3 او 2';
-        } else {
-            span.innerText = 'تمام يا رايق'
-            span.style.color = 'green';
-
-            button.disabled = false;
-        } 
-    }   
-}
-
-function checkSoory () {
-
-    var button = document.getElementById('btn')
-    var category = document.getElementById('category').value
-    var nationalId = document.getElementById('nId')
-    var span = document.getElementById('error')
-
-    if (category === 'سورى') {
-      button.disabled = false;
-      // nationalId.value = 0
       span.innerText = "تمام يا رايق";
       span.style.color = "green";
-      span.style.visibility = "visible";
+      button.disabled = false;
     }
+  }
 }
 
 function getWhy(id) {
