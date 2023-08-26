@@ -284,10 +284,18 @@ form input {
 
 /* ADD */
 
+.wrapper {
+  text-align: center;
+  font-size: 3rem;
+}
 
 .add__wrapper {
   text-align: center;
   font-size: 3rem;
+}
+
+.add__wrapper form input{
+  font-family: 'Quicksand', "IBM Plex Sans Arabic", sans-serif;
 }
 
 
