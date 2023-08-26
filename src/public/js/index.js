@@ -101,31 +101,33 @@ function getKbd(id) {
     }
 }
 
-function popup (id) {
-    document.querySelector(".container").style.opacity = 0.2;
-    document.querySelector(".popup").style.display = "block";
-    document.querySelector(".popup").style.opacity = 1;
-    document.getElementById(id).value = id;
-    document.querySelector('.form-input').focus();
-
+function popup(id) {
+  const popup = document.querySelector(".popup");
+  popup.classList.add("show");
+  document.getElementById(id).value = id;
+  document.querySelector(".form-input").focus();
 }
 
-function add () {
+const popupCloseButton = document.querySelector(".popup__close");
+popupCloseButton.addEventListener("click", () => {
+  document.querySelector(".popup").classList.remove("show");
+});
 
-    while (document.querySelector('.form-input').value[0] == "+" || document.querySelector('.form-input').value[0] == "-") {
-        document.querySelector('.form-input').value = document.querySelector('.form-input').value.substring(1);
-    }
-    document.querySelector('.form-input').value = "+" + document.querySelector('.form-input').value ;
-    document.querySelector('.form-input').focus();
-
+function add() {
+  const input = document.querySelector(".form-input");
+  while (input.value[0] === "+" || input.value[0] === "-") {
+    input.value = input.value.substring(1);
+  }
+  input.focus();
 }
 
-function sub () {
-    while (document.querySelector('.form-input').value[0] == "+" || document.querySelector('.form-input').value[0] == "-") {
-        document.querySelector('.form-input').value = document.querySelector('.form-input').value.substring(1);
-    }
-    document.querySelector('.form-input').value = "-" + document.querySelector('.form-input').value;
-    document.querySelector('.form-input').focus();
+function sub() {
+  const input = document.querySelector(".form-input");
+  while (input.value[0] == "+" || input.value[0] == "-") {
+    input.value = input.value.substring(1);
+  }
+  input.value = "-" + input.value;
+  input.focus();
 }
 
 
