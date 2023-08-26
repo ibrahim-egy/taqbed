@@ -44,9 +44,6 @@ app.get('/', function (req, res) {
 app
   .route("/data")
   .get(function (req, res) {
-    // res.render("data", {
-    //   owners: ["owners"],
-    // });
     if (req.isAuthenticated()) {
       let owners = [];
       Owner.find({}, function (err, o) {

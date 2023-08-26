@@ -36,6 +36,12 @@ body {
 .icon {
   font-size: 8.2rem !important;
 }
+
+.icon-svg {
+  width: 10rem;
+  height: 10rem;
+}
+
 /* LINE */
 
 .line {
@@ -74,7 +80,7 @@ body {
 }
 
 .button-dark {
-  background: #333 !important;
+  background: #36426a !important;
   color: #eee !important;
 }
 
@@ -427,9 +433,10 @@ form input {
 .table tbody tr td form {
   align-items: center;
 }
-.table tbody tr td form button {
-  padding: .75rem;
-  font-size: 1.2rem;
+.table tbody tr td form button,
+.table tbody tr td a {
+  padding: .75rem !important;
+  font-size: 1.2rem !important;
 }
 
 

@@ -28,12 +28,9 @@
                             <%=owner.amount%>
                         </td>
                         <td>
-                            <form action="/owner?name=<%=owner.name%>" method="post">
-                                <button class="button button-dark" type="submit" name="where" value="allOwnersPost">
-                                    <i class="fa-solid fa-arrow-right-from-bracket"></i>
-                                </button>
-                                <input type="hidden" value="<%=owner.id%>" name="id">
-                            </form>
+                            <a href="/owner?name=<%=owner.name%>" class="button button-dark">
+                                <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                            </a>
                         </td>
                     </tr>
                     <% }) %>
