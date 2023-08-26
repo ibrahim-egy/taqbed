@@ -1,27 +1,28 @@
 <%- include('partials/header') %>
-    <div class="container centered">
-        <i class="fa-solid fa-lock fa-6x"></i>
-        <hr>
+    <div class="register form_wrapper">
+        <i class="fa-solid fa-lock register__icon icon"></i>
+        <div class="register__line line"></div>
         <form action="" id="petro-validate">
-            <div>
-                <h3>First Enter Your Petrotech Users ID !</h3>
-                <span id="Perror">PetroTeck</span>
-                <input type="password" id='petrotech-id' placeholder="Petrotech ID" onsubmit="validatePetro()">
-                <input type="button" id="pSubmit" value="Check" onclick="validatePetro()">
-            </div>
+            <span id="Perror" class="error">Enter Your Petrotech Users ID !</span>
+            <input type="password" id='petrotech-id' placeholder="Petrotech ID">
+            <input type="button" id="pSubmit" value="Check" onclick="validatePetro()">
         </form>
         
-        <form action="/register" id="form" method="post" onsubmit="return validatePassword()" style="display: none;">
-            <span id="error">Petrotech</span>
+        <form action="/register" class="register-form" method="post">
+            <span id="error" class="error">LETS GO!</span>
             <input type="text" placeholder="Username" name="username" required />
-            <input type="password" id="pass" placeholder="Password" name="password" required />
-            <input type="password" id="cPass" placeholder="Confirm Password" name="confirmPassword" required />
-            <button class="btn btn-dark btn-lg" type="submit">Register</button>
+            <input type="password" id="pass" placeholder="Password" name="password" onchange="validatePassword()" required />
+            <input type="password" id="cPass" placeholder="Confirm Password" name="confirmPassword" onchange="validatePassword()" />
+            <button class="register__button button" type="submit">Register</button>
         </form>
-
 
     </div>
 
-    
 
+    <!-- <script>
+        const pass = document.getElementById("cPass")
+        pass.addEventListener('change', ()=> {
+            validatePassword()
+        })
+    </script> -->
     <%- include('partials/footer') %>

@@ -1,54 +1,52 @@
 <%- include('partials/header') %>
 
-
-    <div class="centered" style="padding-top: 10%;">
-        <div class="container" style="margin-left: auto;">
-            <a class="btn btn-secondary btn-lg back-btn" href="/data" role="button">Back</a>
+        <div class="table-wrapper">
+            <a class="button button-dark" href="/data" role="button">Back</a>
             <% if (owners.length === 0) { %>
                 <h1>No deleted users yet!</h1>
                 <% } else { %>
-                    <div class="table-responsive">
-                        <table class="table table-striped">
-                            <thead>
+                    <table class="deleted-table table" loading="lazy">
+                        <thead>
+                            <tr>
+                                <th scope="col">Delete</th>
+                                <th scope="col">Restore</th>
+                                <th scope="col">Reason</th>
+                                <th scope="col">By who</th>
+                                <th scope="col">Name</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <form action="/restore" id="add" method="post"></form>
+                            <form action="/deleteForever" id="delete" method="post"></form>
+                            <% owners.forEach(owner=> { %>
                                 <tr>
-                                    <th scope="col">Delete</th>
-                                    <th scope="col">Restore</th>
-                                    <th scope="col">Reason</th>
-                                    <th scope="col">By who</th>
-                                    <th scope="col">Name</th>
-
+                                    <td>
+                                        <button class="button button-delete" name="ownerIdToBeDeleted"
+                                            value="<%=owner.id%>" form="delete">
+                                            <i class="fa-solid fa-user-minus"></i>
+                                        </button>
+                                    </td>
+                                    <td>
+                                        <button class="button button-dark button-delete" name="ownerId" value="<%=owner.id%>"
+                                            form="add">
+                                            <i class="fa-solid fa-user-plus"></i>
+                                        </button>
+                                    </td>
+                                    <td>
+                                        <%=owner.note%>
+                                    </td>
+                                    <td>
+                                        <%=owner.byWho%>
+                                    </td>
+                                    <td>
+                                        <%=owner.name%>
+                                    </td>
                                 </tr>
-                            </thead>
-                            <tbody>
-                                <form action="/restore" id="add" method="post"></form>
-                                <form action="/deleteForever" id="delete" method="post"></form>
-                                <% owners.forEach(owner=> { %>
-                                    <tr>
-                                        <td class="td-left"><button class="btn btn-secondary" name="ownerIdToBeDeleted"
-                                                value="<%=owner.id%>" form="delete"><i
-                                                    class="fa-solid fa-user-minus"></i></button>
-                                        </td>
-                                        <td class="td-left"><button class="btn btn-dark" name="ownerId" value="<%=owner.id%>"
-                                                form="add"><i class="fa-solid fa-user-plus"></i></button>
-                                        </td>
+                            <% }) %>
 
-                                        <td class="td-left">
-                                            <%=owner.note%>
-                                        </td>
-                                        <td class="td-left">
-                                            <%=owner.byWho%>
-                                        </td>
-                                        <td class="td">
-                                            <%=owner.name%>
-                                        </td>
-
-                                    </tr>
-                                    <% }) %>
-
-                            </tbody>
-                        </table>
-                    </div>
-                    <% } %>
+                        </tbody>
+                    </table>
+                <% } %>
                         
         </div>
     </div>

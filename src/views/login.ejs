@@ -1,11 +1,11 @@
 <%- include('partials/header'); -%>
-    <div class="container centered">
-        <i class="fa-solid fa-lock fa-6x"></i>
-        <hr>
-        <form action="/login" class="form" method="post">
+    <div class="login form_wrapper">
+        <i class="fa-solid fa-lock login__icon icon"></i>
+        <div class="login__line line"></div>
+        <form action="/login" class="form login__form" method="post">
             <input type="text" placeholder="Username" name="username" required/>
             <input type="password" placeholder="Password" name="password" />
-            <button class="btn btn-dark btn-lg"type="submit">Login</button>
+            <button class="login__button button button-dark">Login</button>
         </form>
     </div>
 
