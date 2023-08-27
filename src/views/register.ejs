@@ -1,6 +1,7 @@
 <%- include('partials/header') %>
     <div class="register form_wrapper">
-        <i class="fa-solid fa-lock register__icon icon"></i>
+        <img src="../images/lock.svg" alt="oil well icon" class="icon-svg">
+        <div class="line"></div>
         <div class="register__line line"></div>
         <form action="" id="petro-validate">
             <span id="Perror" class="error">Enter Your Petrotech Users ID !</span>
@@ -13,7 +14,7 @@
             <input type="text" placeholder="Username" name="username" required />
             <input type="password" id="pass" placeholder="Password" name="password" onchange="validatePassword()" required />
             <input type="password" id="cPass" placeholder="Confirm Password" name="confirmPassword" onchange="validatePassword()" />
-            <button class="register__button button" type="submit">Register</button>
+            <button class="register__button button button-dark" type="submit">Register</button>
         </form>
 
     </div>

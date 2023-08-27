@@ -73,7 +73,9 @@ body {
   justify-content: center;
   gap: 1rem;
 
+  
 }
+
 
 .button:focus-visible {
   outline: 1px solid rgba(95, 86, 86, 0.4) !important;
@@ -114,6 +116,12 @@ body {
 .button-delete i {
   margin: 0;
   font-size: 1.5rem;
+}
+
+.button i {
+  @media (width < 600px) {
+    display: none;
+  }
 }
 
 
@@ -233,20 +241,26 @@ form input {
   color: rgb(19, 16, 16);
   font-weight: 300;
   font-size: 1.75rem;
-  @media (width < 600px) {
-    width: 20rem;
+  width: 30rem;
+
+  @media (width < 350px) {
+    width: 25rem;
   }
-
 }
-
 
 /* ERROR */
 
 .error {
   visibility: hidden;
   font-size: 1.75rem;
-  color: rgb(36, 133, 36);
+  color: #333;
   font-weight: 500;
+
+  position: absolute;
+  top: -4rem;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
 }
 
 .error.show {
@@ -287,6 +301,10 @@ form input {
 .wrapper {
   text-align: center;
   font-size: 3rem;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap);
 }
 
 .add__wrapper {
@@ -529,4 +547,38 @@ form input {
   align-items: center;
   gap: var(--gap);
   background-color: #d6d6d6;
+}
+
+
+/* LOADER */
+
+
+#preloader {
+
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.3);
+  z-index: 1500;
+  display: grid;
+  place-items: center;
+  display: none;
+}
+
+#preloader::after {
+  content: '';
+  width: 5rem;
+  height: 5rem;
+  border: 4px solid #1c274c;
+  border-top-color: #727c91;
+  border-radius: 50%;
+  animation: spin 1s infinite linear;
+}
+
+#preloader.show {
+  display: grid;
+}
+
+@keyframes spin {
+  from { rotate: 0}
+  to {rotate: 360deg}
 }

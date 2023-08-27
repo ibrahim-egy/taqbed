@@ -72,4 +72,11 @@
         </div>
     </div>
     
+<script>
+    const popupCloseButton = document.querySelector(".popup__close");
+    popupCloseButton.addEventListener("click", () => {
+    document.querySelector(".popup").classList.remove("show");
+    });
+</script>
+
     <%- include('partials/footer') %>

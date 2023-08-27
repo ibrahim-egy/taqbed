@@ -108,11 +108,6 @@ function popup(id) {
   document.querySelector(".form-input").focus();
 }
 
-const popupCloseButton = document.querySelector(".popup__close");
-popupCloseButton.addEventListener("click", () => {
-  document.querySelector(".popup").classList.remove("show");
-});
-
 function add() {
   const input = document.querySelector(".form-input");
   while (input.value[0] === "+" || input.value[0] === "-") {
@@ -130,26 +125,14 @@ function sub() {
   input.focus();
 }
 
-
-
-
-function showLoading () {
-    let preloader = document.getElementById("preloader");
-    preloader.classList.add('display')
+function showLoading() {
+  let preloader = document.getElementById("preloader");
+  preloader.classList.add("show");
 }
-
-
-let preloader = document.getElementById("preloader");
-preloader.classList.add('display')
-window.addEventListener('load', () => {
-    preloader.classList.remove('display')
-})
-
+showLoading();
 window.onload = function () {
-    preloader.classList.remove('display')
-}
-
-
+  preloader.classList.remove("show");
+};
 
 
 const allForms = document.querySelectorAll('form');
