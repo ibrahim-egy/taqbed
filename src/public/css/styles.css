@@ -179,6 +179,7 @@ body {
 
 
 ::placeholder {
+  text-align: center;
   font-family: 'IBM Plex Sans Arabic', sans-serif;
   font-weight: 300;
 }
@@ -242,7 +243,6 @@ form input {
   font-weight: 300;
   font-size: 1.75rem;
   width: 30rem;
-
   @media (width < 350px) {
     width: 25rem;
   }
@@ -579,6 +579,10 @@ form input {
 }
 
 @keyframes spin {
-  from { rotate: 0}
-  to {rotate: 360deg}
+  from { 
+    transform: rotate(0);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }

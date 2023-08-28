@@ -125,33 +125,34 @@ function sub() {
   input.focus();
 }
 
+let preloader = document.getElementById("preloader");
 function showLoading() {
-  let preloader = document.getElementById("preloader");
   preloader.classList.add("show");
 }
+
 showLoading();
 window.onload = function () {
   preloader.classList.remove("show");
 };
 
 
-const allForms = document.querySelectorAll('form');
+// const allForms = document.querySelectorAll('form');
 
-if (allForms) {
-    allForms.forEach(form => {
-        form.onsubmit = function () {
-            showLoading();
-        }
-    });
-}
+// if (allForms) {
+//     allForms.forEach(form => {
+//         form.onsubmit = function () {
+//             showLoading();
+//         }
+//     });
+// }
 
 
-const allLinks = document.querySelectorAll('a');
+// const allLinks = document.querySelectorAll('a');
 
-if (allLinks) {
-    allLinks.forEach(link => {
-        link.onclick = function () {
-            showLoading()
-        }
-    });
-}
+// if (allLinks) {
+//     allLinks.forEach(link => {
+//         link.onclick = function () {
+//             showLoading()
+//         }
+//     });
+// }

@@ -350,14 +350,15 @@ app.post('/restore', function (req, res) {
             if (!err) {
                 if (owner) {
                     const newOwner = new Owner({
-                        name: owner.name,
-                        nationalId: owner.nationalId,
-                        nextPayment: owner.nextPayment,
-                        amount: owner.amount,
-                        amountPerMonth: owner.amountPerMonth,
-                        category: owner.category,
-                        note: "كان محزوف و لسه راجع"
-                    })
+                      name: owner.name,
+                      nationalId: owner.nationalId,
+                      nextPayment: owner.nextPayment,
+                      amount: owner.amount,
+                      amountPerMonth: owner.amountPerMonth,
+                      byWho: req.user.username,
+                      category: owner.category,
+                      note: "كان محزوف و لسه راجع",
+                    });
                     newOwner.save(err => {
                         if (err) {
                             res.redirect("/deletedList")
