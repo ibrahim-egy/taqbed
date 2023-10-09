@@ -176,7 +176,7 @@ app
                     const t = parseInt(month.monthTotal) + parseInt(amount);
                     month.monthTotal = t;
                     month.save();
-                    res.redirect(req.get("referer"));
+                    res.redirect("/data");
                   } else {
                     const newMonth = new Total({
                       monthNumber: currentMonth,
@@ -184,8 +184,7 @@ app
                       year: currentYear,
                     });
                     newMonth.save(() => {
-                      // res.redirect('/data')
-                      res.redirect("back");
+                      res.redirect("/data");
                     });
                   }
                 } else {

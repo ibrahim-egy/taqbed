@@ -1,13 +1,19 @@
-<%- include('partials/header') %>
 
+
+<%- include('partials/header') %>
+    
         <div class="data__wrapper">
             <a href="/allOwners"><img src="../images/search.svg" alt="oil well icon" class="icon-svg"></a>
             <form action="/data", method="post">
                 <input id="ownerName" list="owners" type="search" name='name' placeholder="الاسم الكامل" autofocus>
+
                 <datalist id="owners">
+                    
                     <% owners.forEach(owner => { %>
                         <option class="dropdown-element"><%=owner%></option>
                     <% }) %>
+                    <option class="dropdown-element">TOTAL</option>
+                    
                 </datalist>
                 <button class="button button__light" type="submit">Search</button>
             </form>
@@ -24,6 +30,4 @@
                 </form>
             </div>
         </div>
-
-
-    <%- include('partials/footer') %>
+        <%- include('partials/footer') %>

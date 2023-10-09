@@ -28,10 +28,11 @@ function validate() {
   }
 }
 
-function getWhy(id) {
+function getWhy(e, id) {
   var why = prompt("سبب اللغى؟");
   if (why == null || why == "") {
-    location.reload();
+    e.preventDefault();
+    return;
   }
   document.getElementById(id).value = why;
   return why;
@@ -77,7 +78,7 @@ function validatePassword() {
   let confirmPassword = document.getElementById("cPass").value;
 
   if (confirmPassword.length === 0) {
-    return
+    return;
   }
 
   if (password != confirmPassword) {
@@ -91,14 +92,14 @@ function validatePassword() {
   }
 }
 
-function getKbd(id) {
-    const numberOfMonth = prompt("قبض كام شهر؟")
-
-    if(isNaN(+numberOfMonth)) {
-        location.reload();
-    } else {
-        document.getElementById("index" + id).value = Number(numberOfMonth)
-    }
+function getKbd(e, id) {
+  const numberOfMonth = prompt("قبض كام شهر؟");
+  if (numberOfMonth === null || numberOfMonth === "" || isNaN(+numberOfMonth)) {
+    e.preventDefault();
+    return;
+  } else {
+    document.getElementById("index" + id).value = Number(numberOfMonth);
+  }
 }
 
 function popup(id) {
