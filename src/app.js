@@ -37,9 +37,9 @@ app.use('/login', LoginRoute)
 app.use('/register', RegisterRoute)
 
 
-app.get('/', function (req, res) {
-    res.render('index')
-})
+app.get("/", function (req, res) {
+  res.render("index");
+});
 
 app
   .route("/data")
@@ -154,15 +154,15 @@ app
         var amount = req.body.amount;
         var newDate = date.updateDate(nextPayment);
       }
-      const d = new Date();
-      const currentMonth = d.getMonth() + 1;
-      const currentYear = d.getFullYear();
+      const currentDate = new Date();
+      const currentMonth = currentDate.getMonth() + 1;
+      const currentYear = currentDate.getFullYear();
       Owner.updateOne(
         { _id: req.body.ownerId },
         {
           $set: {
             nextPayment: newDate,
-            lastPayment: "تم القبض يوم " + nextPayment + " مبلغ " + amount,
+            lastPayment: date.getLastPaymentDate(),
             byWho: req.user.username,
           },
         },
