@@ -12,7 +12,7 @@
   "author": "Ibrahim Hammad",
   "license": "ISC",
   "engines": {
-    "node": "16.20.0"
+    "node": "16.20.1"
   },
   "dependencies": {
     "body-parser": "^1.20.0",
