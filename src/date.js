@@ -44,4 +44,8 @@ function updateSDate(date, months) {
   return newDate;
 }
 
-module.exports = { updateDate, updateSDate, getLastPaymentDate };
+function isInteger(value) {
+  return /^\d+$/.test(value);
+}
+
+module.exports = { updateDate, updateSDate, getLastPaymentDate, isInteger };

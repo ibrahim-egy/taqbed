@@ -14,28 +14,30 @@ const db = require('./db/Mongo')
 const Owner = db.Owner
 const DeletedOwner = db.DeletedOwner
 const Total = db.Total
+const Sequence = db.Sequence;
 
 var app = express();
-app.set('view engine', 'ejs');
-app.set('views', './src/views')
+app.set("view engine", "ejs");
+app.set("views", "./src/views");
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static('./src/public'));
-app.use(session({
+app.use(express.static("./src/public"));
+app.use(
+  session({
     cookie: { maxAge: 86400000 },
     secret: process.env.secret,
     resave: false,
     store: new MemoryStore({
-        checkPeriod: 86400000 // prune expired entries every 24h
+      checkPeriod: 86400000, // prune expired entries every 24h
     }),
-    saveUninitialized: false
-}));
+    saveUninitialized: false,
+  })
+);
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(favicon(__dirname + '/public/images/favicon.ico'));
+app.use(favicon(__dirname + "/public/images/favicon.ico"));
 
-app.use('/login', LoginRoute)
-app.use('/register', RegisterRoute)
-
+app.use("/login", LoginRoute);
+app.use("/register", RegisterRoute);
 
 app.get("/", function (req, res) {
   res.render("index");
@@ -63,7 +65,19 @@ app
   .post(function (req, res) {
     if (req.isAuthenticated()) {
       ownerName = req.body.name;
-      if (ownerName == "" || ownerName == null) {
+
+      if (date.isInteger(ownerName)) {
+        Owner.findOne({ index: parseInt(ownerName) }, (err, owner) => {
+          if (err) {
+            console.log(err);
+            res.redirect("/data");
+          } else {
+            console.log(owner);
+            var name = encodeURIComponent(owner.name);
+            res.redirect("/owner?name=" + name);
+          }
+        });
+      } else if (ownerName == "" || ownerName == null) {
         res.redirect("/data");
       } else if (ownerName === "TOTAL") {
         res.redirect("/total");
@@ -96,24 +110,40 @@ app
     }
   })
   .post(function (req, res) {
-    const newOwner = new Owner({
-      name: req.body.name.trim(),
-      nationalId: req.body.nationalId,
-      nextPayment: req.body.nextPayment,
-      amount: req.body.amount,
-      amountPerMonth: req.body.amountPerMonth,
-      category: req.body.category,
-      note: req.body.note,
-      byWho: req.user.username,
-    });
-    newOwner.save((err) => {
-      if (err) {
-        res.redirect("/data");
-      } else {
-        var string = encodeURIComponent(newOwner.name);
-        res.redirect("/owner?name=" + string);
+    // Find the next sequence value and assign it to the 'index' field
+    Sequence.findOneAndUpdate(
+      { _id: "ownerSchema_sequence" },
+      { $inc: { sequence_value: 1 } },
+      { new: true, upsert: true },
+      function (err, sequence) {
+        if (err) {
+          console.error("Error generating sequence:", err);
+          return res.redirect("/data");
+        }
+
+        const newOwner = new Owner({
+          name: req.body.name.trim(),
+          nationalId: req.body.nationalId,
+          nextPayment: req.body.nextPayment,
+          amount: req.body.amount,
+          amountPerMonth: req.body.amountPerMonth,
+          category: req.body.category,
+          note: req.body.note,
+          byWho: req.user.username,
+          index: sequence.sequence_value, // Assign the sequence number to the 'index' field
+        });
+
+        newOwner.save((err) => {
+          if (err) {
+            console.error("Error saving new owner:", err);
+            return res.redirect("/data");
+          }
+
+          var string = encodeURIComponent(newOwner.name);
+          res.redirect("/owner?name=" + string);
+        });
       }
-    });
+    );
   });
 
 app

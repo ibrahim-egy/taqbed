@@ -5,6 +5,8 @@
 
     <% owners.forEach((owner, index)=> { %>
         <div class="owner__table">
+          <div class="owner__item owner__item-dark">Index: </div>
+          <div class="owner__item owner__item-dark"><%=owner.index%></div>
           <div class="owner__item owner__item">Name: </div>
           <div class="owner__item owner__item"><%=owner.name%></div>
           <div class="owner__item owner__item-dark">National ID: </div>
@@ -27,6 +29,7 @@
           </div>
           <div class="owner__item owner__item-dark">Last Payment Date: </div>
           <div class="owner__item owner__item-dark"><%=owner.lastPayment%></div>
+          
         </div>
         <div class="owner__action-buttons action__buttons">
           <form action="/edit/<%=owner.id%>" class="side">

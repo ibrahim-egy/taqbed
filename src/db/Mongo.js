@@ -20,6 +20,7 @@ const ownerSchema = new mongoose.Schema({
   amountPerMonth: Number,
   note: String,
   byWho: String,
+  index: Number,
 });
 
 const deletedOwnersSchema = new mongoose.Schema({
@@ -39,10 +40,16 @@ const monthTotalSchema = new mongoose.Schema({
   year: Number,
 });
 
-userSchema.plugin(passportLocalMongoose);
-const User = new mongoose.model('user', userSchema)
-const Owner = new mongoose.model('owner', ownerSchema)
-const DeletedOwner = new mongoose.model('deletedOwner', deletedOwnersSchema)
-const Total = new mongoose.model('monthTotal', monthTotalSchema)
+const sequenceSchema = new mongoose.Schema({
+  _id: { type: String, default: "ownerSchema_sequence" },
+  sequence_value: { type: Number, default: 1 },
+});
 
-module.exports = { User, Owner, DeletedOwner, Total}
+userSchema.plugin(passportLocalMongoose);
+const User = new mongoose.model("user", userSchema);
+const Owner = new mongoose.model("owner", ownerSchema);
+const DeletedOwner = new mongoose.model("deletedOwner", deletedOwnersSchema);
+const Total = new mongoose.model("monthTotal", monthTotalSchema);
+const Sequence = mongoose.model("Sequence", sequenceSchema);
+
+module.exports = { User, Owner, DeletedOwner, Total, Sequence };
