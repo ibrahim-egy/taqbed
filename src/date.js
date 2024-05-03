@@ -1,5 +1,8 @@
 function getLastPaymentDate() {
-  const now = new Date();
+  // Explicitly set the timezone to Africa/Cairo
+  const now = new Date(
+    new Date().toLocaleString("en-US", { timeZone: "Africa/Cairo" })
+  );
 
   // Get the formatted date part (dd/mm/yyyy) using toLocaleString
   const formattedDate = now.toLocaleDateString("en-GB", {
@@ -24,15 +27,15 @@ function getLastPaymentDate() {
 }
 
 function updateDate(date) {
-  year = parseInt(date.split("-")[0]) + 1;
+  let year = parseInt(date.split("-")[0]) + 1;
   year = year.toString();
   const newDate = year + "-" + date.substring(5, 10);
   return newDate;
 }
 
 function updateSDate(date, months) {
-  year = parseInt(date.split("-")[0]);
-  month = parseInt(date.split("-")[1]) + months;
+  let year = parseInt(date.split("-")[0]);
+  let month = parseInt(date.split("-")[1]) + months;
   if (month > 12) {
     month -= 12;
     year += 1;

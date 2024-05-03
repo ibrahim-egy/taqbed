@@ -39,6 +39,7 @@ app.use(favicon(__dirname + "/public/images/favicon.ico"));
 app.use("/login", LoginRoute);
 app.use("/register", RegisterRoute);
 
+
 app.get("/", function (req, res) {
   res.render("index");
 });
@@ -72,7 +73,6 @@ app
             console.log(err);
             res.redirect("/data");
           } else {
-            console.log(owner);
             var name = encodeURIComponent(owner.name);
             res.redirect("/owner?name=" + name);
           }
@@ -130,7 +130,7 @@ app
           category: req.body.category,
           note: req.body.note,
           byWho: req.user.username,
-          index: sequence.sequence_value, // Assign the sequence number to the 'index' field
+          index: sequence.sequence_value,
         });
 
         newOwner.save((err) => {
@@ -150,7 +150,7 @@ app
   .route("/owner")
   .get(function (req, res) {
     if (req.isAuthenticated()) {
-      Owner.find({ name: req.query.name }, function (err, owners) {
+      Owner.find({ name: new RegExp(req.query.name) }, function (err, owners) {
         if (!err) {
           if (owners.length !== 0) {
             res.render("owner", { owners: owners });
