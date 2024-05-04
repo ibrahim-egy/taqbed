@@ -150,21 +150,25 @@ app
   .route("/owner")
   .get(function (req, res) {
     if (req.isAuthenticated()) {
+      const searchWords = req.query.name.split(" ");
+      const regexPattern = new RegExp(
+        searchWords.map((word) => `(?=.*${word})`).join(""),
+        "iu"
+      );
+
       // regex function to get all documents containing the user input
-      Owner.find(
-        { name: new RegExp(req.query.name, "i") },
-        function (err, owners) {
-          if (!err) {
-            if (owners.length !== 0) {
-              res.render("owner", { owners: owners });
-            } else {
-              res.redirect("/data");
-            }
+      Owner.find({ name: { $regex: regexPattern } }, function (err, owners) {
+        console.log(owners);
+        if (!err) {
+          if (owners.length !== 0) {
+            res.render("owner", { owners: owners });
           } else {
             res.redirect("/data");
           }
+        } else {
+          res.redirect("/data");
         }
-      );
+      });
     } else {
       res.redirect("/login");
     }
