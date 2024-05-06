@@ -1,29 +1,9 @@
+const moment = require("moment-timezone");
+
 function getLastPaymentDate() {
-  // Explicitly set the timezone to Africa/Cairo
-  const now = new Date(
-    new Date().toLocaleString("en-US", { timeZone: "Africa/Cairo" })
-  );
-
-  // Get the formatted date part (dd/mm/yyyy) using toLocaleString
-  const formattedDate = now.toLocaleDateString("en-GB", {
-    // en-GB for dd/mm/yyyy format
-    day: "2-digit",
-    month: "2-digit",
-    year: "numeric",
-  });
-
-  // Get formatted time part (hh:mm:ss AM/PM)
-  const hours = now.getHours() % 12 || 12; // Convert to 12h format (12 for midnight/noon)
-  const amPm = now.getHours() >= 12 ? "PM" : "AM";
-  const formattedTime = `${hours.toString().padStart(2, "0")}:${now
-    .getMinutes()
-    .toString()
-    .padStart(2, "0")}:${now.getSeconds().toString().padStart(2, "0")} ${amPm}`;
-
-  // Combine the formatted date and time
-  const dateTime = `${formattedDate} | ${formattedTime}`;
-
-  return dateTime;
+  const now = moment.tz("Africa/Cairo");
+  const formattedDateTime = now.format("DD/MM/YYYY | hh:mm:ss A");
+  return formattedDateTime;
 }
 
 function updateDate(date) {

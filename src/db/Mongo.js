@@ -19,7 +19,7 @@ const ownerSchema = new mongoose.Schema({
   amount: Number,
   amountPerMonth: Number,
   note: String,
-  byWho: String,
+  byWhom: String,
   index: Number,
 });
 

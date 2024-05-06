@@ -1,19 +1,18 @@
 const express = require('express');
-const ejs = require('ejs');
-const mongoose = require('mongoose')
-const bodyParser = require('body-parser')
-require('dotenv').config()
-const session = require('express-session')
-const MemoryStore = require('memorystore')(session)
-const passport = require('passport');
-var favicon = require('serve-favicon');
-const LoginRoute = require('./routes/Login')
-const RegisterRoute = require('./routes/Register')
-const date = require('./date')
-const db = require('./db/Mongo')
-const Owner = db.Owner
-const DeletedOwner = db.DeletedOwner
-const Total = db.Total
+const ejs = require("ejs");
+const bodyParser = require("body-parser");
+require("dotenv").config();
+const session = require("express-session");
+const MemoryStore = require("memorystore")(session);
+const passport = require("passport");
+var favicon = require("serve-favicon");
+const LoginRoute = require("./routes/Login");
+const RegisterRoute = require("./routes/Register");
+const date = require("./date");
+const db = require("./db/Mongo");
+const Owner = db.Owner;
+const DeletedOwner = db.DeletedOwner;
+const Total = db.Total;
 const Sequence = db.Sequence;
 
 var app = express();
@@ -38,7 +37,6 @@ app.use(favicon(__dirname + "/public/images/favicon.ico"));
 
 app.use("/login", LoginRoute);
 app.use("/register", RegisterRoute);
-
 
 app.get("/", function (req, res) {
   res.render("index");
@@ -129,7 +127,7 @@ app
           amountPerMonth: req.body.amountPerMonth,
           category: req.body.category,
           note: req.body.note,
-          byWho: req.user.username,
+          byWhom: req.user.username,
           index: sequence.sequence_value,
         });
 
@@ -201,7 +199,7 @@ app
           $set: {
             nextPayment: newDate,
             lastPayment: date.getLastPaymentDate(),
-            byWho: req.user.username,
+            byWhom: req.user.username,
           },
         },
         function (err, result) {
@@ -278,7 +276,6 @@ app
     );
   });
 
-
 app
   .route("/total")
   .get(function (req, res) {
@@ -328,7 +325,7 @@ app.post("/delete/:ownerId", function (req, res) {
           amountPerMonth: owner.amountPerMonth,
           category: owner.category,
           note: deleteReason,
-          byWho: req.user.username,
+          byWhom: req.user.username,
         });
         newDeletedOwner.save((err) => {
           if (err) {
@@ -381,45 +378,47 @@ app.get("/deletedList", function (req, res) {
   }
 });
 
-app.post('/restore', function (req, res) {
-    if (req.isAuthenticated()) {
-        DeletedOwner.findById({ _id: req.body.ownerId }, async function (err, owner) {
-            if (!err) {
-                if (owner) {
-                    const newOwner = new Owner({
-                      name: owner.name,
-                      nationalId: owner.nationalId,
-                      nextPayment: owner.nextPayment,
-                      amount: owner.amount,
-                      amountPerMonth: owner.amountPerMonth,
-                      byWho: req.user.username,
-                      category: owner.category,
-                      note: "كان محزوف و لسه راجع",
-                    });
-                    newOwner.save(err => {
-                        if (err) {
-                            res.redirect("/deletedList")
-                        } else {
-                            DeletedOwner.deleteOne({ _id: req.body.ownerId }, function (err) {
-                                if (!err) {
-                                    res.redirect('/deletedList')
-                                }
-                            })
-                        }
-                    })
-
-                }
-            } else {
-                res.redirect('/data')
-            }
-        })
-    } else {
-        res.redirect('/login')
-    }
-
-
-
-})
+app.post("/restore", function (req, res) {
+  if (req.isAuthenticated()) {
+    DeletedOwner.findById(
+      { _id: req.body.ownerId },
+      async function (err, owner) {
+        if (!err) {
+          if (owner) {
+            const newOwner = new Owner({
+              name: owner.name,
+              nationalId: owner.nationalId,
+              nextPayment: owner.nextPayment,
+              amount: owner.amount,
+              amountPerMonth: owner.amountPerMonth,
+              byWhom: req.user.username,
+              category: owner.category,
+              note: "كان محزوف و لسه راجع",
+            });
+            newOwner.save((err) => {
+              if (err) {
+                res.redirect("/deletedList");
+              } else {
+                DeletedOwner.deleteOne(
+                  { _id: req.body.ownerId },
+                  function (err) {
+                    if (!err) {
+                      res.redirect("/deletedList");
+                    }
+                  }
+                );
+              }
+            });
+          }
+        } else {
+          res.redirect("/data");
+        }
+      }
+    );
+  } else {
+    res.redirect("/login");
+  }
+});
 
 app.post('/deleteForever', function (req, res) {
     const ownerId = req.body.ownerIdToBeDeleted;
