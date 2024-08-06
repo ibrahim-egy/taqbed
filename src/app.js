@@ -68,7 +68,6 @@ app
       if (date.isInteger(ownerName)) {
         Owner.findOne({ index: parseInt(ownerName) }, (err, owner) => {
           if (err) {
-            console.log(err);
             res.redirect("/data");
           } else {
             var name = encodeURIComponent(owner.name);
@@ -156,7 +155,6 @@ app
 
       // regex function to get all documents containing the user input
       Owner.find({ name: { $regex: regexPattern } }, function (err, owners) {
-        console.log(owners);
         if (!err) {
           if (owners.length !== 0) {
             res.render("owner", { owners: owners });
@@ -171,7 +169,7 @@ app
       res.redirect("/login");
     }
   })
-  .post(function (req, res) {
+  .post(async function (req, res) {
     if (req.body.where === "allOwnersPost") {
       Owner.findById({ _id: req.body.id }, function (err, owner) {
         if (!err) {
@@ -179,21 +177,26 @@ app
         }
       });
     } else {
-      const nextPayment = req.body.nextPayment;
-      if (typeof req.body.monthCount != "undefined") {
-        var amount = req.body.amountPerMonth * req.body.monthCount;
-        var newDate = date.updateSDate(
-          nextPayment,
-          Number(req.body.monthCount)
-        );
+      let amount = 0;
+      let owner = await Owner.findOne({ _id: req.body.ownerId });
+      const nextPayment = owner.nextPayment;
+
+      if (!owner) {
+        res.redirect("/data");
       } else {
-        var amount = req.body.amount;
-        var newDate = date.updateDate(nextPayment);
+        if (typeof req.body.monthCount != "undefined") {
+          amount = owner.amountPerMonth * req.body.monthCount;
+          var newDate = date.updateSDate(
+            nextPayment,
+            Number(req.body.monthCount)
+          );
+        } else {
+          amount = owner.amount;
+          var newDate = date.updateDate(nextPayment);
+        }
       }
-      const currentDate = new Date();
-      const currentMonth = currentDate.getMonth() + 1;
-      const currentYear = currentDate.getFullYear();
-      Owner.updateOne(
+
+      await Owner.findOneAndUpdate(
         { _id: req.body.ownerId },
         {
           $set: {
@@ -201,38 +204,37 @@ app
             lastPayment: date.getLastPaymentDate(),
             byWhom: req.user.username,
           },
-        },
-        function (err, result) {
-          if (!err) {
-            Total.findOne(
-              { monthNumber: currentMonth, year: currentYear },
-              function (err, month) {
-                if (!err) {
-                  if (month) {
-                    const t = parseInt(month.monthTotal) + parseInt(amount);
-                    month.monthTotal = t;
-                    month.save();
-                    res.redirect("/data");
-                  } else {
-                    const newMonth = new Total({
-                      monthNumber: currentMonth,
-                      monthTotal: parseInt(amount),
-                      year: currentYear,
-                    });
-                    newMonth.save(() => {
-                      res.redirect("/data");
-                    });
-                  }
-                } else {
-                  res.redirect("/data");
-                }
-              }
-            );
-          } else {
-            res.redirect("/data");
-          }
         }
       );
+
+      const currentDate = new Date();
+      const currentMonth = currentDate.getMonth() + 1;
+      const currentYear = currentDate.getFullYear();
+
+      const month = await Total.findOne({
+        monthNumber: currentMonth,
+        year: currentYear,
+      });
+
+      if (!month) {
+        const newMonth = new Total({
+          monthNumber: currentMonth,
+          monthTotal: parseInt(amount),
+          year: currentYear,
+        });
+        newMonth.save(() => {
+          res.redirect("/data");
+        });
+      } else {
+        Total.findOneAndUpdate(
+          {
+            monthNumber: currentMonth,
+            year: currentYear,
+          },
+          { $inc: { monthTotal: parseInt(amount) } }
+        );
+        res.redirect("/data");
+      }
     }
   });
 
@@ -325,7 +327,7 @@ app.post("/delete/:ownerId", function (req, res) {
           amountPerMonth: owner.amountPerMonth,
           category: owner.category,
           note: deleteReason,
-          byWhom: req.user.username,
+          byWhom: name,
         });
         newDeletedOwner.save((err) => {
           if (err) {
@@ -333,7 +335,6 @@ app.post("/delete/:ownerId", function (req, res) {
           } else {
             Owner.deleteOne({ _id: req.params.ownerId }, function (err) {
               if (!err) {
-                console.log("Removed user from owners collection.");
                 Owner.find(
                   { name: newDeletedOwner.name },
                   function (err, owners) {
@@ -380,39 +381,51 @@ app.get("/deletedList", function (req, res) {
 
 app.post("/restore", function (req, res) {
   if (req.isAuthenticated()) {
-    DeletedOwner.findById(
-      { _id: req.body.ownerId },
-      async function (err, owner) {
-        if (!err) {
-          if (owner) {
-            const newOwner = new Owner({
-              name: owner.name,
-              nationalId: owner.nationalId,
-              nextPayment: owner.nextPayment,
-              amount: owner.amount,
-              amountPerMonth: owner.amountPerMonth,
-              byWhom: req.user.username,
-              category: owner.category,
-              note: "كان محزوف و لسه راجع",
-            });
-            newOwner.save((err) => {
-              if (err) {
-                res.redirect("/deletedList");
-              } else {
-                DeletedOwner.deleteOne(
-                  { _id: req.body.ownerId },
-                  function (err) {
-                    if (!err) {
-                      res.redirect("/deletedList");
-                    }
-                  }
-                );
-              }
-            });
-          }
-        } else {
-          res.redirect("/data");
+    Sequence.findOneAndUpdate(
+      { _id: "ownerSchema_sequence" },
+      { $inc: { sequence_value: 1 } },
+      { new: true, upsert: true },
+      function (err, sequence) {
+        if (err) {
+          console.error("Error generating sequence:", err);
+          return res.redirect("/data");
         }
+        DeletedOwner.findById(
+          { _id: req.body.ownerId },
+          async function (err, owner) {
+            if (!err) {
+              if (owner) {
+                const newOwner = new Owner({
+                  index: sequence.sequence_value,
+                  name: owner.name,
+                  nationalId: owner.nationalId,
+                  nextPayment: owner.nextPayment,
+                  amount: owner.amount,
+                  amountPerMonth: owner.amountPerMonth,
+                  byWhom: req.user.username,
+                  category: owner.category,
+                  note: "كان محزوف و لسه راجع",
+                });
+                newOwner.save((err) => {
+                  if (err) {
+                    res.redirect("/deletedList");
+                  } else {
+                    DeletedOwner.deleteOne(
+                      { _id: req.body.ownerId },
+                      function (err) {
+                        if (!err) {
+                          res.redirect("/deletedList");
+                        }
+                      }
+                    );
+                  }
+                });
+              }
+            } else {
+              res.redirect("/data");
+            }
+          }
+        );
       }
     );
   } else {

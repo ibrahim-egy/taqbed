@@ -31,7 +31,7 @@ const deletedOwnersSchema = new mongoose.Schema({
   amount: Number,
   amountPerMonth: Number,
   note: String,
-  byWho: String,
+  byWhom: String,
 });
 
 const monthTotalSchema = new mongoose.Schema({

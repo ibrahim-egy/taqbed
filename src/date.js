@@ -16,7 +16,7 @@ function updateDate(date) {
 function updateSDate(date, months) {
   let year = parseInt(date.split("-")[0]);
   let month = parseInt(date.split("-")[1]) + months;
-  if (month > 12) {
+  while (month > 12) {
     month -= 12;
     year += 1;
   }

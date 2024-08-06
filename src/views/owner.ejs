@@ -39,12 +39,9 @@
 
             <button class="button button-lg button-success" type="submit"><i
                 class="fa-solid fa-thumbs-up" ></i>قبَّض</button>
-            <input type="hidden" name="nextPayment" value="<%=owner.nextPayment%>">
-            <input type="hidden" name="amount" value="<%=owner.amount%>">
-            <input type="hidden" name="amountPerMonth" value="<%=owner.amountPerMonth%>">
-            <input type="hidden" name="ownerId" value="<%=owner.id%>">
+            <input id="owner_id" type="hidden" name="ownerId" value="<%=owner.id%>">
           </form>
-          <button form="kbd-form" name="monthCount" id="index<%=index%>" class="button button-lg button-success-2" onclick='getKbd(event, "<%=index%>")' ><i
+          <button form="kbd-form" name="monthCount" id="index<%=owner.id%>" class="button button-lg button-success-2" onclick='getKbd(event, "<%=owner.id%>")' ><i
               class="fa-solid fa-thumbs-up"></i>قبَّض بالشهر</button>
           <form action="/delete/<%=owner.id%>" method="post" class="side">
             <button id="<%=owner.id%>" class="button button-lg button-sage" name="why"

@@ -99,6 +99,7 @@ function getKbd(e, id) {
     return;
   } else {
     document.getElementById("index" + id).value = Number(numberOfMonth);
+    document.getElementById("owner_id").value = id;
   }
 }
 
