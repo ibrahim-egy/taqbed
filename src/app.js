@@ -1,4 +1,4 @@
-const express = require('express');
+const express = require("express");
 const ejs = require("ejs");
 const bodyParser = require("body-parser");
 require("dotenv").config();
@@ -431,29 +431,28 @@ app.post("/restore", function (req, res) {
   }
 });
 
-app.post('/deleteForever', function (req, res) {
-    const ownerId = req.body.ownerIdToBeDeleted;
-    DeletedOwner.deleteOne({ _id: ownerId }, function (err) {
-        if (!err) {
-            res.redirect('/deletedList')
-        }
-    })
-})
+app.post("/deleteForever", function (req, res) {
+  const ownerId = req.body.ownerIdToBeDeleted;
+  DeletedOwner.deleteOne({ _id: ownerId }, function (err) {
+    if (!err) {
+      res.redirect("/deletedList");
+    }
+  });
+});
 
-app.post('/logout', function (req, res) {
-    req.logout(function (err) {
-        if (!err) {
-            res.redirect('/')
-        }
-    });
-})
-
+app.post("/logout", function (req, res) {
+  req.logout(function (err) {
+    if (!err) {
+      res.redirect("/");
+    }
+  });
+});
 
 let port = process.env.PORT;
 if (port == null || port == "") {
-    port = 3000;
+  port = 7860;
 }
 
 app.listen(port, function () {
-    console.log("Server has started successfully.");
+  console.log("Server has started successfully.");
 });
