@@ -184,6 +184,8 @@ app
       if (!owner) {
         res.redirect("/data");
       } else {
+        // Calculating new date
+
         if (typeof req.body.monthCount != "undefined") {
           amount = owner.amountPerMonth * req.body.monthCount;
           var newDate = date.updateSDate(
@@ -226,14 +228,10 @@ app
           res.redirect("/data");
         });
       } else {
-        Total.findOneAndUpdate(
-          {
-            monthNumber: currentMonth,
-            year: currentYear,
-          },
-          { $inc: { monthTotal: parseInt(amount) } }
-        );
-        res.redirect("/data");
+        month.monthTotal += parseInt(amount);
+        month.save().then(() => {
+          res.redirect("/data");
+        });
       }
     }
   });
