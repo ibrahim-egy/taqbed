@@ -1,17 +1,12 @@
-FROM node:16
+FROM node:16.20.1
 
-# Create app directory
 WORKDIR /app
 
-# Install app dependencies
 COPY package*.json ./
 RUN npm install
 
-# Bundle app source
 COPY . .
 
-# Expose port
 EXPOSE 7860
 
-# Run your app
-CMD [ "node", "app.js" ]
+CMD ["npm", "start"]

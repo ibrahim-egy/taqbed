@@ -1,82 +1,102 @@
 <%- include('partials/header') %>
 
-        <div class="table-wrapper">
-            
-            <% var allYears = total.map((year) => { %>
-                <% return year.year %>
-            <% }) %>
-            
-            <% let yearsInDb = allYears.filter ((year, index) => { %>
-                <% return allYears.indexOf(year) === index %>
-            <% }) %>
-            
+<style>
+  body {
+    display: block;
+  }
+</style>
 
-            <% var i = 0; %>
-            <% yearsInDb.forEach ((year, index) => { %>
-                <% if (index != 0) { %>
-                    <hr class="line">
-                <% } %>
-                <h1 class="year-heading"><%=year%></h1>
-                <table class="table total-table">
-                    <thead>
-                        <tr>
-                            <th scope="col">Edit</th>
-                            <th scope="col">Total</th>
-                            <th scope="col">شهر</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <% while (allYears[i] === year) { %>
-                            <tr>
-                                <td class="text-center s-width">
-                                    <form class="side" >
-                                        <button  class="button" type="button" onclick="popup('<%=total[i].id%>')">
-                                            <i class="fa-solid fa-pen-to-square"></i>
-                                        </button>
-                                        <input form="myform" type="hidden" name="id" id="<%=total[i].id%>">
-                                    </form>
-                                </td>
-                                <td id="total" class="text-center">
-                                    <%=total[i].monthTotal%>
-                                </td>
-                                <td class="text-center s-width">
-                                    <%= total[i].monthNumber%>
-                                </td>
-                            </tr>
-                        <% i = i + 1; %>
-                        <% } %>
-                    </tbody>
-                    </table>
-                
-            <% }) %>
-            <a href="/data" class="button button-dark"><i class="fa-solid fa-delete-left"></i>BACK</a>
-            
-        </div>
-        <div class="popup">
-            
-            <div class="popup__content">
-                <div class="popup__close button button-dark">&#10005;</div>
-                <h3 class="popup__heading">
-                    اكتب الفرق
-                </h3>
-                <h4>
-                    - موجب + او سالب 
-                </h4>
-                <form action="/total" method="post" id="myform">
-                    <input name="totalDiff" type="number" class="form-input" placeholder="الفرق">
-                    <button class="add button" onclick="add()" type="button">+</button>
-                    <button class="sub button" onclick="sub()" type="button">-</button>
-                    <button id="btn" class="btn button button-dark" type="submit">Save</button>
-                </form>
-            </div> 
-        </div>
-    </div>
-    
+<div class="table-wrapper">
+  <a href="/data" class="button button-dark"
+    ><i class="fa-solid fa-delete-left"></i>BACK</a
+  >
+  <% Object.keys(total).forEach(year => { let yearTotal = 0;
+  Object.keys(total[year]).forEach(month => { yearTotal += total[year][month];
+  }); %>
+  <h1 class="year-heading"><%= year %></h1>
+
+  <table class="table total-table">
+    <thead>
+      <tr>
+        <th scope="col">Edit</th>
+        <th scope="col">Total</th>
+        <th scope="col">شهر</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% Object.keys(total[year]).forEach(month => { %>
+      <tr>
+        <td class="text-center s-width">
+          <form class="side">
+            <button
+              class="button"
+              type="button"
+              onclick="popup('<%= year %>', '<%= month %>')"
+            >
+              <i class="fa-solid fa-pen-to-square"></i>
+            </button>
+            <input
+              form="myform"
+              type="hidden"
+              name="year"
+              value="<%= year %>"
+            />
+            <input
+              form="myform"
+              type="hidden"
+              name="month"
+              value="<%= month %>"
+            />
+          </form>
+        </td>
+        <td id="total" class="text-center"><%= total[year][month] %></td>
+        <td class="text-center s-width"><%= month %></td>
+      </tr>
+      <% }); %>
+
+      <!-- Total Row -->
+      <tr class="year-total-row">
+        <td></td>
+        <td class="text-center"><%= yearTotal %></td>
+        <td class="text-center s-width">Total</td>
+      </tr>
+    </tbody>
+  </table>
+  <% }); %>
+</div>
+
+<div class="popup">
+  <div class="popup__content">
+    <div class="popup__close button button-dark">&#10005;</div>
+    <h3 class="popup__heading">اكتب الفرق</h3>
+    <h4>- موجب + او سالب</h4>
+    <form action="/total" method="post" id="myform">
+      <input
+        name="totalDiff"
+        type="number"
+        class="form-input"
+        placeholder="الفرق"
+      />
+      <button class="add button" onclick="add()" type="button">+</button>
+      <button class="sub button" onclick="sub()" type="button">-</button>
+      <button id="btn" class="btn button button-dark" type="submit">
+        Save
+      </button>
+    </form>
+  </div>
+</div>
+
 <script>
-    const popupCloseButton = document.querySelector(".popup__close");
-    popupCloseButton.addEventListener("click", () => {
+  const popupCloseButton = document.querySelector(".popup__close");
+  popupCloseButton.addEventListener("click", () => {
     document.querySelector(".popup").classList.remove("show");
-    });
+  });
+
+  function popup(year, month) {
+    document.querySelector("input[name='year']").value = year;
+    document.querySelector("input[name='month']").value = month;
+    document.querySelector(".popup").classList.add("show");
+  }
 </script>
 
-    <%- include('partials/footer') %>
+<%- include('partials/footer') %>

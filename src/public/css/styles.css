@@ -6,8 +6,6 @@
   box-sizing: border-box;
 }
 
-
-
 :root {
   --color-background: #c9d0d6;
   --border-radius: 5px;
@@ -16,11 +14,10 @@
   --top-space: -10rem;
 }
 
-
 html {
   height: 100%;
   margin: 0;
-  font-family: 'Quicksand', "IBM Plex Sans Arabic", sans-serif;
+  font-family: "Quicksand", "IBM Plex Sans Arabic", sans-serif;
   font-size: 62.5%;
 }
 body {
@@ -54,7 +51,7 @@ body {
 .button,
 .button:link,
 .button:visited {
-  font-family: 'Quicksand', "IBM Plex Sans Arabic", sans-serif;
+  font-family: "Quicksand", "IBM Plex Sans Arabic", sans-serif;
   font-size: 2rem;
   line-height: 1;
   padding: 1.15rem 2rem;
@@ -72,10 +69,7 @@ body {
   display: flex;
   justify-content: center;
   gap: 1rem;
-
-  
 }
-
 
 .button:focus-visible {
   outline: 1px solid rgba(95, 86, 86, 0.4) !important;
@@ -92,7 +86,7 @@ body {
 }
 
 .button-sage {
-  background: #9d3f3f!important;
+  background: #9d3f3f !important;
   color: #eee !important;
 }
 .button-success {
@@ -110,7 +104,7 @@ body {
 }
 
 .button-delete {
-  padding: .5rem;
+  padding: 0.5rem;
 }
 
 .button-delete i {
@@ -124,7 +118,6 @@ body {
   }
 }
 
-
 /* MAIN */
 
 .main {
@@ -135,7 +128,6 @@ body {
   align-items: center;
   flex-wrap: wrap;
   margin-top: var(--top-space);
-
 }
 
 .main * {
@@ -163,7 +155,6 @@ body {
   gap: 1rem;
 }
 
-
 /* LOGIN */
 .login__form {
   font-size: 2.5rem;
@@ -177,13 +168,11 @@ body {
   font-size: 1.75rem;
 }
 
-
 ::placeholder {
   text-align: center;
-  font-family: 'IBM Plex Sans Arabic', sans-serif;
+  font-family: "IBM Plex Sans Arabic", sans-serif;
   font-weight: 300;
 }
-
 
 /* REGISTER */
 
@@ -210,13 +199,11 @@ body {
   font-size: 1.75rem;
 }
 .register__button[disabled] {
-  filter: opacity(.7);
+  filter: opacity(0.7);
   cursor: not-allowed;
 }
 
-
 /* FORM */
-
 
 .form_wrapper {
   display: flex;
@@ -272,7 +259,6 @@ form input {
   visibility: visible;
 }
 
-
 /* DATA PAGE */
 
 .data__wrapper {
@@ -295,7 +281,6 @@ form input {
   justify-content: center;
 }
 
-
 /* ADD */
 
 .wrapper {
@@ -312,10 +297,9 @@ form input {
   font-size: 3rem;
 }
 
-.add__wrapper form input{
-  font-family: 'Quicksand', "IBM Plex Sans Arabic", sans-serif;
+.add__wrapper form input {
+  font-family: "Quicksand", "IBM Plex Sans Arabic", sans-serif;
 }
-
 
 /* OWNER */
 
@@ -328,7 +312,7 @@ form input {
 
 .owner__wrapper a {
   @media (width < 600px) {
-    padding: .75rem 1rem;
+    padding: 0.75rem 1rem;
   }
 }
 
@@ -344,7 +328,7 @@ form input {
 
 .owner__table {
   display: grid;
-  grid-template-columns: .6fr 1fr;
+  grid-template-columns: 0.6fr 1fr;
   row-gap: var(--gap);
   width: 100%;
   @media (width < 600px) {
@@ -363,11 +347,10 @@ form input {
   justify-content: flex-end;
   gap: var(--gap);
 
-    @media (width < 600px) {
-      padding: .5rem;
-      font-size: 1.5rem;
-    }
-
+  @media (width < 600px) {
+    padding: 0.5rem;
+    font-size: 1.5rem;
+  }
 }
 
 .owner__item:nth-child(odd) {
@@ -383,7 +366,7 @@ form input {
   margin-top: 0;
 }
 
-.owner__item form{
+.owner__item form {
   display: inline-block;
 }
 
@@ -399,7 +382,7 @@ form input {
 }
 
 .owner__item:has(form) {
-  padding: .75rem 2rem;
+  padding: 0.75rem 2rem;
 }
 
 .owner__line {
@@ -417,10 +400,9 @@ form input {
   gap: var(--gap-lg);
 }
 
-
 .table-wrapper a {
   @media (width < 600px) {
-    padding: .75rem 1rem !important;
+    padding: 0.75rem 1rem !important;
   }
 }
 
@@ -429,27 +411,25 @@ form input {
   font-weight: 300;
   border-spacing: 2;
   border-collapse: collapse;
-  font-family: 'Quicksand', "IBM Plex Sans Arabic", sans-serif;
+  font-family: "Quicksand", "IBM Plex Sans Arabic", sans-serif;
 }
-
 
 .table thead tr th {
   padding: 1rem 1.5rem;
   font-weight: 700;
   @media (width < 600px) {
-    padding: .5rem .75rem;
-    padding: .25rem;
+    padding: 0.5rem 0.75rem;
+    padding: 0.25rem;
     font-size: 1.25rem;
   }
 }
-
 
 .table tbody tr td {
   padding: 1rem 1.5rem;
   text-align: center;
   @media (width < 600px) {
-    padding: .5rem .75rem;
-    padding: .5rem;
+    padding: 0.5rem 0.75rem;
+    padding: 0.5rem;
     font-size: 1.5rem;
   }
   @media (width < 300px) {
@@ -461,10 +441,9 @@ form input {
 }
 .table tbody tr td form button,
 .table tbody tr td a {
-  padding: .75rem !important;
+  padding: 0.75rem !important;
   font-size: 1.2rem !important;
 }
-
 
 .table tbody tr:nth-child(odd) {
   background: rgba(0, 0, 0, 0.1);
@@ -491,7 +470,6 @@ form input {
   }
 }
 
-
 .all-owners-table thead tr th:first-child {
   @media (width < 600px) {
     display: none;
@@ -509,9 +487,7 @@ form input {
   font-size: 2.25rem;
 }
 
-
 /* POPUP */
-
 
 .popup {
   position: fixed;
@@ -519,19 +495,18 @@ form input {
   justify-content: center;
   align-items: center;
   inset: 0;
-  background-color: rgb(111 111 111 / 71%);;
+  background-color: rgb(111 111 111 / 71%);
   font-size: 2rem;
   z-index: 1000;
   display: none;
 }
 
-
 .popup__close {
   position: absolute;
   top: 2rem;
   right: 2rem;
-  padding: .5rem;
-  transition: all .2s;
+  padding: 0.5rem;
+  transition: all 0.2s;
 }
 .popup.show {
   display: flex;
@@ -549,12 +524,9 @@ form input {
   background-color: #d6d6d6;
 }
 
-
 /* LOADER */
 
-
 #preloader {
-
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.3);
@@ -565,7 +537,7 @@ form input {
 }
 
 #preloader::after {
-  content: '';
+  content: "";
   width: 5rem;
   height: 5rem;
   border: 4px solid #1c274c;
@@ -579,7 +551,7 @@ form input {
 }
 
 @keyframes spin {
-  from { 
+  from {
     transform: rotate(0);
   }
   to {

@@ -282,7 +282,23 @@ app
     if (req.isAuthenticated()) {
       Total.find({}, function (err, total) {
         if (!err) {
-          res.render("total", { total: total.sort() });
+          const transformed = {};
+
+          total.forEach((item) => {
+            const year = item.year;
+            const month = item.monthNumber;
+            const totalVal = item.monthTotal;
+
+            if (!transformed[year]) {
+              transformed[year] = {};
+            }
+
+            transformed[year][month] = totalVal;
+          });
+
+          console.log(transformed);
+
+          res.render("total", { total: transformed });
         } else {
           res.redirect("/data");
         }
