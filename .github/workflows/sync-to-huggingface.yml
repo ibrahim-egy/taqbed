@@ -1,0 +1,23 @@
+name: Sync to Hugging Face Space
+
+on:
+  push:
+    branches: [main] # Change to 'master' if that's your default branch
+
+jobs:
+  sync-to-hf:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          lfs: true # If you’re using Git LFS (optional)
+          fetch-depth: 0
+
+      - name: Push to Hugging Face Space
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: |
+          git remote add space https://huggingface.co/spaces/jojoTH/taqbed
+          git push --force https://jojoTH:$HF_TOKEN@huggingface.co/spaces/jojoTH/taqbed main
