@@ -1,10 +1,7 @@
-const mongoose = require('mongoose')
-const passportLocalMongoose = require('passport-local-mongoose');
+const mongoose = require("mongoose");
+const passportLocalMongoose = require("passport-local-mongoose");
 
-mongoose.connect(process.env.mongoUrl)
-
-
-
+mongoose.connect(process.env.mongoUrl);
 
 const userSchema = new mongoose.Schema({
   name: String,
@@ -18,7 +15,12 @@ const ownerSchema = new mongoose.Schema({
   category: String,
   amount: Number,
   amountPerMonth: Number,
-  note: String,
+  note: [
+    {
+      text: String,
+      createdAt: String,
+    },
+  ],
   byWhom: String,
   index: Number,
 });

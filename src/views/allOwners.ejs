@@ -1,48 +1,41 @@
 <%- include('partials/header') %>
 
-    <div class="table-wrapper">
-        <a class="button button-dark" href="/data" role="button">Back</a>
-        <table class="all-owners-table table" loading="lazy">
-            <thead>
-                <tr>
-                    <th scope="col">No.</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">National ID</th>
-                    <th scope="col">Amount</th>
-                    <th scope="col">Index</th>
-                    <th scope="col">View</th>
-                </tr>
-            </thead>
-            <tbody>
-                <% owners.forEach((owner, index)=> { %>
-                    <tr>
-                        <td>
-                            <%=index + 1%>
-                        </td>
-                        <td>
-                            <%=owner.name%>
-                        </td>
-                        <td>
-                            <%=owner.nationalId%>
-                        </td>
-                        <td>
-                            <%=owner.amount%>
-                        </td>
-                        <td>
-                            <%=owner.index%>
-                        </td>
-                        <td>
-                            <a href="/owner?name=<%=owner.name%>" class="button button-dark">
-                                <i class="fa-solid fa-arrow-right-from-bracket"></i>
-                            </a>
-                        </td>
-                        
-                    </tr>
-                    <% }) %>
+<style>
+  body {
+    align-items: flex-start;
+  }
+</style>
 
-            </tbody>
-        </table>
+<div class="table-wrapper">
+  <a class="button button-dark" href="/data" role="button">Back</a>
+  <table class="all-owners-table table" loading="lazy">
+    <thead>
+      <tr>
+        <th scope="col">No.</th>
+        <th scope="col">Name</th>
+        <th scope="col">National ID</th>
+        <th scope="col">Amount</th>
+        <th scope="col">Index</th>
+        <th scope="col">View</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% owners.forEach((owner, index)=> { %>
+      <tr>
+        <td><%=index + 1%></td>
+        <td><%=owner.name%></td>
+        <td><%=owner.nationalId%></td>
+        <td><%=owner.amount%></td>
+        <td><%=owner.index%></td>
+        <td>
+          <a href="/owner?name=<%=owner.name%>" class="button button-dark">
+            <i class="fa-solid fa-arrow-right-from-bracket"></i>
+          </a>
+        </td>
+      </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</div>
 
-    </div>
-
-    <%- include('partials/footer') %>
+<%- include('partials/footer') %>

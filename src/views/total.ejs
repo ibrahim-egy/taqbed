@@ -7,12 +7,13 @@
 </style>
 
 <div class="table-wrapper">
-  <a href="/data" class="button button-dark"
-    ><i class="fa-solid fa-delete-left"></i>BACK</a
-  >
+  <a href="/data" class="button button-dark">
+    <i class="fa-solid fa-delete-left"></i>BACK
+  </a>
+
   <% Object.keys(total).forEach(year => { let yearTotal = 0;
-  Object.keys(total[year]).forEach(month => { yearTotal += total[year][month];
-  }); %>
+  Object.keys(total[year]).forEach(month => { yearTotal +=
+  total[year][month].total; }); %>
   <h1 class="year-heading"><%= year %></h1>
 
   <table class="table total-table">
@@ -31,7 +32,7 @@
             <button
               class="button"
               type="button"
-              onclick="popup('<%= year %>', '<%= month %>')"
+              onclick="myPopup('<%= year %>', '<%= month %>', '<%= total[year][month].id %>')"
             >
               <i class="fa-solid fa-pen-to-square"></i>
             </button>
@@ -49,7 +50,7 @@
             />
           </form>
         </td>
-        <td id="total" class="text-center"><%= total[year][month] %></td>
+        <td id="total" class="text-center"><%= total[year][month].total %></td>
         <td class="text-center s-width"><%= month %></td>
       </tr>
       <% }); %>
@@ -77,6 +78,8 @@
         class="form-input"
         placeholder="الفرق"
       />
+      <input form="myform" type="hidden" name="id" />
+
       <button class="add button" onclick="add()" type="button">+</button>
       <button class="sub button" onclick="sub()" type="button">-</button>
       <button id="btn" class="btn button button-dark" type="submit">
@@ -92,9 +95,11 @@
     document.querySelector(".popup").classList.remove("show");
   });
 
-  function popup(year, month) {
+  function myPopup(year, month, id) {
+    console.log("popup called with:", year, month, id);
     document.querySelector("input[name='year']").value = year;
     document.querySelector("input[name='month']").value = month;
+    document.querySelector("input[name='id']").value = id;
     document.querySelector(".popup").classList.add("show");
   }
 </script>

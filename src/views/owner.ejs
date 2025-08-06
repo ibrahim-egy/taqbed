@@ -1,66 +1,147 @@
-<%- include('partials/header') %>
+<%- include('partials/header') %> <% if (owners.length > 1) { %>
+<style>
+  body {
+    align-items: flex-start;
+  }
+</style>
+<% } %>
 
 <div class="owner__wrapper">
-  <a href="/data" class="button button-dark"><i class="fa-solid fa-delete-left"></i> BACK</a>
+  <a href="/data" class="button button-dark">
+    <i class="fa-solid fa-delete-left"></i> BACK
+  </a>
 
-    <% owners.forEach((owner, index)=> { %>
-        <div class="owner__table">
-          <div class="owner__item owner__item-dark">Index: </div>
-          <div class="owner__item owner__item-dark"><%=owner.index%></div>
-          <div class="owner__item owner__item">Name: </div>
-          <div class="owner__item owner__item"><%=owner.name%></div>
-          <div class="owner__item owner__item-dark">National ID: </div>
-          <div class="owner__item owner__item-dark"><%=owner.nationalId%></div>
-          <div class="owner__item owner__item">Next Payment Date: </div>
-          <div class="owner__item owner__item"><%=owner.nextPayment%></div>
-          <div class="owner__item owner__item-dark">Category: </div>
-          <div class="owner__item owner__item-dark"><%=owner.category%></div>
-          <div class="owner__item owner__item">Year/ Month: </div>
-          <div class="owner__item owner__item"><%=owner.amount%>/<%=owner.amountPerMonth%></div>
-          <div class="owner__item owner__item-dark">By Whom: </div>
-          <div class="owner__item owner__item-dark"><%=owner.byWhom%></div>
-          <div class="owner__item owner__item">Notes: </div>
-          <div class="owner__item owner__item"><%=owner.note%>
-            <form action="/addNote" method="post" class="note-form">
-              <button class="btn" type="submit" id="noteBtn">+</button>
-              <input type="hidden" name="id" value="<%=owner.id%>">
-              <input type="hidden" name="note" id="owner-note-input">
-            </form>
-          </div>
-          <div class="owner__item owner__item-dark">Last Payment Date: </div>
-          <div class="owner__item owner__item-dark"><%=owner.lastPayment%></div>
-          
-        </div>
-        <div class="owner__action-buttons action__buttons">
-          <form action="/edit/<%=owner.id%>" class="side">
-            <button class="button button-lg" type="submit"><i class="fa-solid fa-pen-to-square"></i>Edit</button>
-          </form>
-          <form action="/owner" method="post" class="side" id="kbd-form">
+  <% owners.forEach(function(owner, index) { %>
+  <div class="owner__table">
+    <div class="owner__item owner__item-dark">Index:</div>
+    <div class="owner__item owner__item-dark"><%= owner.index %></div>
+    <div class="owner__item owner__item">Name:</div>
+    <div class="owner__item owner__item"><%= owner.name %></div>
+    <div class="owner__item owner__item-dark">National ID:</div>
+    <div class="owner__item owner__item-dark"><%= owner.nationalId %></div>
+    <div class="owner__item owner__item">Next Payment Date:</div>
+    <div class="owner__item owner__item"><%= owner.nextPayment %></div>
+    <div class="owner__item owner__item-dark">Category:</div>
+    <div class="owner__item owner__item-dark"><%= owner.category %></div>
+    <div class="owner__item owner__item">Year/ Month:</div>
+    <div class="owner__item owner__item">
+      <%= owner.amount %> / <%= owner.amountPerMonth %>
+    </div>
+    <div class="owner__item owner__item-dark">By Whom:</div>
+    <div class="owner__item owner__item-dark"><%= owner.byWhom %></div>
+    <div class="owner__item owner__item">Notes:</div>
+    <div class="owner__item owner__item">
+      <% if (owner.note.length === 0) { %>
+      <div>No notes.</div>
+      <% } else { %>
+      <div class="note-item-wrapper">
+        <% owner.note.forEach(function(n, i) { %>
 
-            <button class="button button-lg button-success" type="submit"><i
-                class="fa-solid fa-thumbs-up" ></i>قبَّض</button>
-            <input id="owner_id" type="hidden" name="ownerId" value="<%=owner.id%>">
+        <div class="note-item">
+          <form action="/deleteNote" method="post">
+            <input type="hidden" name="id" value="<%= owner.id %>" />
+            <input type="hidden" name="noteIndex" value="<%= i %>" />
+            <button
+              class="button button-transparent"
+              type="submit"
+              style="padding: 0"
+            >
+              <i class="fa-regular fa-square-minus"></i>
+            </button>
           </form>
-          <button form="kbd-form" name="monthCount" id="index<%=owner.id%>" class="button button-lg button-success-2" onclick='getKbd(event, "<%=owner.id%>")' ><i
-              class="fa-solid fa-thumbs-up"></i>قبَّض بالشهر</button>
-          <form action="/delete/<%=owner.id%>" method="post" class="side">
-            <button id="<%=owner.id%>" class="button button-lg button-sage" name="why"
-              onclick='getWhy(event, "<%=owner.id%>")'><i class="fa-solid fa-thumbs-down"></i>احزف</button>
-          </form>
+          <div class="divider">|</div>
+          <div class="note-date"><%= n.createdAt.split()[0] %></div>
+          <div class="divider">|</div>
+          <p><%= n.text %></p>
         </div>
-        <div class="line owner__line"></div>
-    <% }) %>
-  
+        <% }); %>
+      </div>
+      <% } %>
+
+      <form action="/addNote" method="post" class="note-form">
+        <button
+          class="button noteBtn"
+          type="button"
+          data-owner-id="<%= owner.id %>"
+        >
+          +
+        </button>
+        <input type="hidden" name="id" value="<%= owner.id %>" />
+        <input
+          type="hidden"
+          name="note"
+          id="owner-note-input-<%= owner.id %>"
+        />
+      </form>
+    </div>
+
+    <div class="owner__item owner__item-dark">Last Payment Date:</div>
+    <div class="owner__item owner__item-dark"><%= owner.lastPayment %></div>
+  </div>
+
+  <div class="owner__action-buttons action__buttons">
+    <form action="/edit/<%= owner.id %>" class="side">
+      <button class="button button-lg" type="submit">
+        <i class="fa-solid fa-pen-to-square"></i>Edit
+      </button>
+    </form>
+
+    <form action="/owner" method="post" class="side" id="kbd-form">
+      <button class="button button-lg button-success" type="submit">
+        <i class="fa-solid fa-thumbs-up"></i>قبَّض
+      </button>
+      <input
+        id="owner_id"
+        type="hidden"
+        name="ownerId"
+        value="<%= owner.id %>"
+      />
+    </form>
+
+    <button
+      form="kbd-form"
+      name="monthCount"
+      id="index<%= owner.id %>"
+      class="button button-lg button-success-2"
+      onclick='getKbd(event, "<%= owner.id %>")'
+    >
+      <i class="fa-solid fa-thumbs-up"></i>قبَّض بالشهر
+    </button>
+
+    <form action="/delete/<%= owner.id %>" method="post" class="side">
+      <button
+        id="<%= owner.id %>"
+        class="button button-lg button-sage"
+        name="why"
+        onclick='getWhy(event, "<%= owner.id %>")'
+      >
+        <i class="fa-solid fa-thumbs-down"></i>احزف
+      </button>
+    </form>
+  </div>
+
+  <div class="line owner__line"></div>
+  <% }); %>
 </div>
 
 <script>
-  const noteBtn = document.getElementById("noteBtn");
-  const note = document.getElementById("owner-note-input");
-  noteBtn.addEventListener("click", () => {
-    const noteInput = prompt("Note: ");
-    note.value = noteInput;
-  });
+  const noteButtons = document.querySelectorAll(".note-form .noteBtn");
 
+  noteButtons.forEach((btn) => {
+    btn.addEventListener("click", (event) => {
+      event.preventDefault(); // Prevent default form submit
+      const ownerId = btn
+        .closest("form")
+        .querySelector('input[name="id"]').value;
+      const noteInput = btn.closest("form").querySelector('input[name="note"]');
+
+      const noteValue = prompt("Note: ");
+      if (noteValue !== null && noteValue.trim() !== "") {
+        noteInput.value = noteValue.trim();
+        btn.closest("form").submit();
+      }
+    });
+  });
 </script>
 
 <%- include('partials/footer') %>

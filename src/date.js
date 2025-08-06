@@ -1,8 +1,8 @@
 const moment = require("moment-timezone");
 
-function getLastPaymentDate() {
+function getFormatedDate() {
   const now = moment.tz("Africa/Cairo");
-  const formattedDateTime = now.format("DD/MM/YYYY | hh:mm:ss A");
+  const formattedDateTime = now.format("DD/MM/YYYY - hh:mm:ss A");
   return formattedDateTime;
 }
 
@@ -31,4 +31,4 @@ function isInteger(value) {
   return /^\d+$/.test(value);
 }
 
-module.exports = { updateDate, updateSDate, getLastPaymentDate, isInteger };
+module.exports = { updateDate, updateSDate, getFormatedDate, isInteger };

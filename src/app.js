@@ -125,7 +125,12 @@ app
           amount: req.body.amount,
           amountPerMonth: req.body.amountPerMonth,
           category: req.body.category,
-          note: req.body.note,
+          note: [
+            {
+              text: req.body.note,
+              createdAt: date.getFormatedDate().split(" - ")[0],
+            },
+          ],
           byWhom: req.user.username,
           index: sequence.sequence_value,
         });
@@ -203,7 +208,7 @@ app
         {
           $set: {
             nextPayment: newDate,
-            lastPayment: date.getLastPaymentDate(),
+            lastPayment: date.getFormatedDate(),
             byWhom: req.user.username,
           },
         }
@@ -237,9 +242,36 @@ app
   });
 
 app.post("/addNote", async (req, res) => {
-  const note = req.body.note;
+  const noteText = req.body.note;
   const id = req.body.id;
-  await Owner.findOneAndUpdate({ _id: id }, { note: note });
+
+  if (!noteText.trim()) {
+    return res.redirect("back"); // Prevent empty notes
+  }
+
+  const createdAt = date.getFormatedDate().split(" - ")[0];
+
+  await Owner.findOneAndUpdate(
+    { _id: id },
+    { $push: { note: { text: noteText, createdAt } } }
+  );
+
+  res.redirect("back");
+});
+
+app.post("/deleteNote", async (req, res) => {
+  const { id, noteIndex } = req.body;
+
+  const owner = await Owner.findById(id);
+  if (!owner || !owner.note[noteIndex]) return res.redirect("back");
+
+  const noteToDelete = owner.note[noteIndex]._id;
+
+  await Owner.findOneAndUpdate(
+    { _id: id },
+    { $pull: { note: { _id: noteToDelete } } }
+  );
+
   res.redirect("back");
 });
 
@@ -252,6 +284,7 @@ app
     });
   })
   .post(function (req, res) {
+    console.log(req.body);
     Owner.updateOne(
       { _id: req.params.ownerId },
       {
@@ -265,11 +298,12 @@ app
           note: req.body.note,
         },
       },
-      function (err, result) {
+      function (err) {
         if (!err) {
           var string = encodeURIComponent(req.body.name.trim());
           res.redirect("/owner?name=" + string);
         } else {
+          console.log("ERROR: " + err);
           res.redirect("/data");
         }
       }
@@ -293,11 +327,11 @@ app
               transformed[year] = {};
             }
 
-            transformed[year][month] = totalVal;
+            transformed[year][month] = {
+              total: totalVal,
+              id: item._id,
+            };
           });
-
-          console.log(transformed);
-
           res.render("total", { total: transformed });
         } else {
           res.redirect("/data");
@@ -309,10 +343,7 @@ app
   })
   .post(function (req, res) {
     const totalDiff = Number(req.body.totalDiff);
-    let id = req.body.id.filter((id) => {
-      return id != "";
-    });
-    id = id[0];
+    const id = req.body.id;
 
     Total.findById(id, function (err, month) {
       if (!err) {
@@ -418,7 +449,12 @@ app.post("/restore", function (req, res) {
                   amountPerMonth: owner.amountPerMonth,
                   byWhom: req.user.username,
                   category: owner.category,
-                  note: "كان محزوف و لسه راجع",
+                  note: [
+                    {
+                      text: "كان محزوف و لسه راجع",
+                      createdAt: date.getFormatedDate().split(" - ")[0],
+                    },
+                  ],
                 });
                 newOwner.save((err) => {
                   if (err) {
