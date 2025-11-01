@@ -2,7 +2,7 @@
 title: Taqbed
 emoji: 🚀
 colorFrom: indigo
-colorTo: blue
+colorTo: red
 sdk: docker
 pinned: false
 ---
