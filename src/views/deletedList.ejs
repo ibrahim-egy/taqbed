@@ -26,13 +26,13 @@
                             <% owners.forEach(owner=> { %>
                                 <tr>
                                     <td>
-                                        <button class="button button-delete" name="ownerIdToBeDeleted"
+                                        <button class="button button-delete button-show" name="ownerIdToBeDeleted"
                                             value="<%=owner.id%>" form="delete">
                                             <i class="fa-solid fa-user-minus"></i>
                                         </button>
                                     </td>
                                     <td>
-                                        <button class="button button-dark button-delete" name="ownerId" value="<%=owner.id%>"
+                                        <button class="button button-dark button-delete button-show" name="ownerId" value="<%=owner.id%>"
                                             form="add">
                                             <i class="fa-solid fa-user-plus"></i>
                                         </button>

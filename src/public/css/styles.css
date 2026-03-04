@@ -23,7 +23,7 @@ body {
   font-weight: 300;
   display: flex;
   justify-content: center;
-  align-items: center;
+  /* align-items: center; */
   padding: 2rem;
 }
 /* ICON */
@@ -99,6 +99,9 @@ body {
   background: transparent !important;
   color: #333 !important;
 }
+.button-show i {
+  display: inline-block !important;
+}
 
 .button-lg {
   min-width: 20rem;
@@ -117,6 +120,12 @@ body {
 .button i {
   @media (width < 600px) {
     display: none;
+  }
+}
+
+.button-show i {
+  @media (width < 600px) {
+    font-size: 1rem;
   }
 }
 
@@ -291,6 +300,7 @@ form input {
   position: relative;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   gap: var(--gap);
 }
 
@@ -322,10 +332,6 @@ form input {
   @media (width < 600px) {
     display: none;
   }
-}
-
-.owner {
-  height: 100vh;
 }
 
 .owner__table {
