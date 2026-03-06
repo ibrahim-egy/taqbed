@@ -117,7 +117,6 @@ app
           console.error("Error generating sequence:", err);
           return res.redirect("/data");
         }
-
         const newOwner = new Owner({
           name: req.body.name.trim(),
           nationalId: req.body.nationalId,
@@ -125,12 +124,12 @@ app
           amount: req.body.amount,
           amountPerMonth: req.body.amountPerMonth,
           category: req.body.category,
-          note: [
+          note: req.body.note.length > 0 ? [
             {
               text: req.body.note,
               createdAt: date.getFormatedDate().split(" - ")[0],
             },
-          ],
+          ] : [],
           byWhom: req.user.username,
           index: sequence.sequence_value,
         });

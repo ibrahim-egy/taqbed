@@ -1,16 +1,18 @@
 <%- include('partials/header') %>
-<div class="add__wrapper wrapper">
-  <span id="error" class="error">PetroTech</span>
+<div class="main">
 
-  <form action="/edit/<%=owner.id%>" method="post" class="">
-    <input
+  <div class="add__wrapper wrapper">
+    <span id="error" class="error">PetroTech</span>
+    
+    <form action="/edit/<%=owner.id%>" method="post" class="">
+      <input
       type="text"
       placeholder="الاسم"
       name="name"
       value="<%=owner.name%>"
       required
-    />
-    <input
+      />
+      <input
       type="text"
       id="category"
       list="catagories"
@@ -19,15 +21,15 @@
       value="<%=owner.category%>"
       onchange="validate()"
       required
-    />
-    <datalist id="catagories">
-      <option>سورى</option>
-      <option>ارمله</option>
-      <option>مطلقه</option>
-      <option>متزوجه</option>
-      <option>مسعدات</option>
-    </datalist>
-    <input
+      />
+      <datalist id="catagories">
+        <option>سورى</option>
+        <option>ارمله</option>
+        <option>مطلقه</option>
+        <option>متزوجه</option>
+        <option>مسعدات</option>
+      </datalist>
+      <input
       type="number"
       id="nId"
       placeholder="الرقم القومى"
@@ -35,15 +37,15 @@
       value="<%=owner.nationalId%>"
       onchange="validate()"
       required
-    />
-    <input
+      />
+      <input
       type="date"
       placeholder="تريخ القبض"
       name="nextPayment"
       value="<%=owner.nextPayment%>"
       required
-    />
-    <input
+      />
+      <input
       type="number"
       id="amount"
       placeholder="كام فى السنه"
@@ -51,8 +53,8 @@
       value="<%=owner.amount%>"
       onchange="autoSuggestMonth()"
       required
-    />
-    <input
+      />
+      <input
       type="number"
       id="amount-month"
       placeholder="كام فى الشهر"
@@ -60,11 +62,12 @@
       value="<%=owner.amountPerMonth%>"
       onchange="autoSuggestYear()"
       required
-    />
-
-    <input type="hidden" value="<%=owner.name%>" name="Sname" />
-    <button id="btn" class="button button-dark" type="submit">Save</button>
-  </form>
+      />
+      
+      <input type="hidden" value="<%=owner.name%>" name="Sname" />
+      <button id="btn" class="button button-dark" type="submit">Save</button>
+    </form>
+  </div>
 </div>
-
+  
 <%- include('partials/footer') %>

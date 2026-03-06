@@ -11,7 +11,7 @@
   --border-radius: 5px;
   --gap: 1.25rem;
   --gap-lg: 2.5rem;
-  --top-space: -10rem;
+  --top-space: -5rem;
 }
 
 html {
@@ -21,8 +21,8 @@ html {
 body {
   background-color: var(--color-background) !important;
   font-weight: 300;
-  display: flex;
-  justify-content: center;
+  /* display: flex; */
+  /* justify-content: center; */
   /* align-items: center; */
   padding: 2rem;
 }
@@ -132,6 +132,7 @@ body {
 /* MAIN */
 
 .main {
+  height: 100%;
   display: flex;
   flex-direction: column;
   gap: var(--gap);
@@ -301,6 +302,7 @@ form input {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
   gap: var(--gap);
 }
 
@@ -338,7 +340,10 @@ form input {
   display: grid;
   grid-template-columns: 0.6fr 1fr;
   row-gap: var(--gap);
-  width: 100%;
+  width: 70%;
+  @media (width < 900px) {
+    width: 100%;
+      }
   @media (width < 600px) {
     grid-template-columns: min-content 1fr;
   }
