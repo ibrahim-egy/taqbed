@@ -50,7 +50,11 @@
             </button>
           </form>
           <div class="divider">|</div>
-          <div class="note-date"><%= n.createdAt.split()[0] %></div>
+          <div class="note-date">
+            <%= n.createdAt 
+                ? new Date(n.createdAt).toLocaleDateString() 
+                : "No date" %>
+          </div>
           <div class="divider">|</div>
           <p><%= n.text %></p>
         </div>
